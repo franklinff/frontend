@@ -58,9 +58,46 @@ export class UserService {
   }
 
   TOdodelete(id){
-
     alert(id);
     return this._http.delete('http://127.0.0.1:3000/users/deleteToDo',id);
   }
+
+
+  viewIndividualHead(body:any):Observable<any>{
+    try { 
+      let params1 = new HttpParams().set('title_head_id',body);
+      return this._http.get('http://127.0.0.1:3000/users/viewHeadIndividual/',{params:params1})
+     }catch(e) {
+       console.log(e);
+     }
+  }
+
+
+  insertSubtitle(body:any){
+    return this._http.post('http://127.0.0.1:3000/users/addSubTitle',body,{
+      observe:'body',
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    });
+  }
+
+
+  listSubtitles(body:any):Observable<any>{
+    try { 
+      console.log('listSubtitles service');
+      console.log(body);
+      let header_title_id = new HttpParams().set('title_head_id',body);
+      return this._http.get('http://127.0.0.1:3000/users/listSubtitles/',{params:header_title_id})
+     }catch(e) {
+       console.log(e);
+     }
+  }
+
+  taskDoneSubtitle(id){
+    return this._http.put(`http://127.0.0.1:3000/users/subtitleChecked`, {id});
+  }
+
+
+
+
 
 }
