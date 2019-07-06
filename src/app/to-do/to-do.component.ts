@@ -148,10 +148,11 @@ export class ToDoComponent implements OnInit {
     this.listofsubtitles = data; 
   }
 
-  subtitleTaskDone(subtitle_id,head_title){
+  subtitleTaskDone(subtitle_id,to_do_headtitleid){
     this._user.taskDoneSubtitle(subtitle_id).subscribe( data=> {  
       console.log('I am in subtitleTaskDone'); 
       console.log(data); 
+      this.getSubtitles(to_do_headtitleid);
       //this.listSubtitles(data); 
       //this.viewHead(to_do_headtitleid);
       error=> console.error(error); 
