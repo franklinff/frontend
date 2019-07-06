@@ -83,8 +83,8 @@ export class UserService {
 
   listSubtitles(body:any):Observable<any>{
     try { 
-      console.log('listSubtitles service');
-      console.log(body);
+      // console.log('listSubtitles service');
+      // console.log(body);
       let header_title_id = new HttpParams().set('title_head_id',body);
       return this._http.get('http://127.0.0.1:3000/users/listSubtitles/',{params:header_title_id})
      }catch(e) {
@@ -93,7 +93,13 @@ export class UserService {
   }
 
   taskDoneSubtitle(id){
-    return this._http.put(`http://127.0.0.1:3000/users/subtitleChecked`, {id});
+    return this._http.put(`http://127.0.0.1:3000/users/subtitleChecked`, {id},{
+
+      observe:'body',
+      headers:new HttpHeaders().append('Content-Type','application/json')
+
+    }
+    );
   }
 
 

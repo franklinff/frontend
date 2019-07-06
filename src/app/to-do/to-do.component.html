@@ -7,6 +7,7 @@
               <li *ngFor="let hero of heroes">
                   <a [routerLink]="" (click)="viewHead(hero._id)">{{ hero.listTitle }}</a>
                   <!-- <a [routerLink]="" (click)="deleteTOdo(hero._id)">Edit</a>  -->
+                  <a class="btn" data-toggle="modal" data-target="#editListHead">Edit</a>
               </li>
 
           </ul>
@@ -21,13 +22,13 @@
         <div style="background-color:white;">
             <form [formGroup]="subtitleForm">
             <input [(ngModel)]="headertodo_id" type="hidden" formControlName="headertodo_id" class="form-control" value="{{ headertodo_id }}"> 
-            <input [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control "  placeholder="+ Add a to-do...">  
+            <input [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control"  [value]="subtitle" placeholder="+ Add a to-do">  
             </form>  
         </div>
          
         <div *ngFor="let subtitle of listofsubtitles">
             <div class="checkbox">
-                <label><input type="checkbox" (change)="subtitleTaskDone(subtitle._id)">{{ subtitle.sub_title }}</label>
+                <label><input type="checkbox" (change)="subtitleTaskDone(subtitle._id,subtitle.to_do_headtitleid)">{{ subtitle.sub_title }}</label>
             </div>
         </div>
 
@@ -54,10 +55,37 @@
                 <button type="button" class="btn btn-primary" data-dismiss="modal" on-click="onSubmit()">Save</button>  
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
-              </form>
+              </form>    
             </div>  
           </div>
     </div>
+
+
+    <div class="modal fade" id="editListHead" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Edit list</h4>
+            </div>
+           
+            <form [formGroup]="editTodoTitleForm">
+            <div class="modal-body">     
+            <input type="text" formControlName="title_list" class="form-control" required>
+            <input [(ngModel)]="user_id" type="hidden" formControlName="user_id" class="form-control" value='{{ user_id }}'>  
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-trash"></span> Trash 
+              </button> 
+              <button type="button" class="btn btn-primary" data-dismiss="modal" on-click="submitEditHead()">Done</button>  
+            </div>
+
+            </form>    
+          </div>  
+        </div>
+  </div>
 
  
   

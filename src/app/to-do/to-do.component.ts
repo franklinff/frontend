@@ -34,10 +34,15 @@ export class ToDoComponent implements OnInit {
     user_id:['']
   });
 
+  editTodoTitleForm = this.fb.group({
+    title_list: ['', Validators.required],
+    user_id:['']
+  });
+
 
   subtitleForm = this.fb.group({
     subtitle: ['', Validators.required],
-    headertodo_id:['', Validators.required]
+    headertodo_id:['']
   });
 
   ngOnInit() {
@@ -49,7 +54,7 @@ export class ToDoComponent implements OnInit {
     },
       error =>this._router.navigate(['/login'])
     );
-    console.log('hello');
+  //  console.log('hello');
    }
 
   onSubmit(){
@@ -89,24 +94,25 @@ export class ToDoComponent implements OnInit {
   }
 
   viewHead(id){
-    console.log('I am viewHead');
-    this._user.viewIndividualHead(id).subscribe( data=> {  
+  //  console.log('I am viewHead');
+    this._user.viewIndividualHead(id).subscribe( data=> {
+         this.getSubtitles(id);  
           this.invidualTododetails(data);
-          this.getSubtitles(id);
+         
           error=> console.error(error); 
         }
       ) 
   }
 
   invidualTododetails(data){
-    console.log(data);
+   // console.log('invidualTododetails');
     this.headertodo = data[0].listTitle;
     this.headertodo_id = data[0]._id;
   }
 
   addSubtitle(){
-    //  console.log('i am addSubtitle');
-    //  console.warn(this.subtitleForm.value.headertodo_id);
+       //console.log(JSON.stringify(this.subtitleForm.value.headertodo_id));
+       //console.warn(this.subtitleForm.value.headertodo_id);
 
     if(!this.subtitleForm.valid){
       console.log('Invalid form');this.subtitle = null;  return; 
@@ -114,38 +120,42 @@ export class ToDoComponent implements OnInit {
       this.subtitle = null; 
       this._user.insertSubtitle(JSON.stringify(this.subtitleForm.value)).subscribe(   
         data=> { 
-            this.getSubtitles(this.subtitleForm.value.headertodo_id);       
-            console.log(data);  
+             this.getSubtitles(this.subtitleForm.value.headertodo_id);  
+            // console.log('addSubtitle() in component ');  
             error=> console.error(error); 
           }
-        )
-      
+        ) 
     }
+
   }
 
-  getSubtitles(id){
-    this._user.listSubtitles(id).subscribe( data=> {  
-      //console.log(data); 
-      this.listSubtitles(data);        
-      error=> console.error(error); 
-    }
-  )
+  getSubtitles(id){ //console.log(id); 
+    this._user.listSubtitles(id).subscribe( data=> {    
+        this.listSubtitles(data);        
+        error=> console.error(error); 
+      }
+    )
   }
 
   listSubtitles(data){
-    //console.log('listSUbtitles'); 
-   // console.log(data);
+    // console.log('listSUbtitles'); 
+     console.log(data);
     this.listofsubtitles = data; 
   }
 
-  subtitleTaskDone(subtitle_id){
-
+  subtitleTaskDone(subtitle_id,head_title_id){
     this._user.taskDoneSubtitle(subtitle_id).subscribe( data=> {  
+      console.log('I am in subtitleTaskDone'); 
       console.log(data); 
-      this.listSubtitles(data);        
+      //this.listSubtitles(data); 
+      this.viewHead(head_title_id);
       error=> console.error(error); 
     }
   )
+  }
+
+  submitEditHead(){
+    console.warn(this.editTodoTitleForm.value);
   }
 
 }
