@@ -21,7 +21,7 @@
         <div style="background-color:white;">
             <form [formGroup]="subtitleForm">
             <input [(ngModel)]="headertodo_id" type="hidden" formControlName="headertodo_id" class="form-control" value="{{ headertodo_id }}"> 
-            <input [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control search-input"  placeholder="+ Add a to-do...">  
+            <input [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control "  placeholder="+ Add a to-do...">  
             </form>  
         </div>
          

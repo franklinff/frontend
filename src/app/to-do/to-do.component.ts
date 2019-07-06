@@ -60,15 +60,14 @@ export class ToDoComponent implements OnInit {
     this.subtitle = null; 
     this._user.title_of_toDo(JSON.stringify(this.profileForm.value)).subscribe(
     data=> {  
-        console.log(data);
+        this.retriveToDoList();  
         error=> console.error(error); 
       }
     ) 
   }
 
   retriveToDoList(){   
-    console.log("Id: ", this.user_id);
-
+   // console.log("Id: ", this.user_id);
     this._user.getToDoList(this.user_id).subscribe(data => {
      // console.log(data);   
       this.listToDoFrontend(data);
@@ -106,19 +105,21 @@ export class ToDoComponent implements OnInit {
   }
 
   addSubtitle(){
-     console.log('i am addSubtitle');
-     console.warn(this.subtitleForm.value);
+    //  console.log('i am addSubtitle');
+    //  console.warn(this.subtitleForm.value.headertodo_id);
 
     if(!this.subtitleForm.valid){
       console.log('Invalid form');this.subtitle = null;  return; 
     }else{
       this.subtitle = null; 
-      this._user.insertSubtitle(JSON.stringify(this.subtitleForm.value)).subscribe(
-        data=> {       
-            console.log(data);
+      this._user.insertSubtitle(JSON.stringify(this.subtitleForm.value)).subscribe(   
+        data=> { 
+            this.getSubtitles(this.subtitleForm.value.headertodo_id);       
+            console.log(data);  
             error=> console.error(error); 
           }
-        ) 
+        )
+      
     }
   }
 
@@ -132,14 +133,15 @@ export class ToDoComponent implements OnInit {
   }
 
   listSubtitles(data){
-    console.log('listSUbtitles'); 
+    //console.log('listSUbtitles'); 
    // console.log(data);
     this.listofsubtitles = data; 
   }
 
   subtitleTaskDone(subtitle_id){
+
     this._user.taskDoneSubtitle(subtitle_id).subscribe( data=> {  
-      //console.log(data); 
+      console.log(data); 
       this.listSubtitles(data);        
       error=> console.error(error); 
     }

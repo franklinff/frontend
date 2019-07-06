@@ -16,15 +16,23 @@ export class RegisterComponent implements OnInit {
       email:new FormControl(null,[Validators.email,Validators.required]),
       username:new FormControl(null,Validators.required),
       password: new FormControl(null,Validators.required),
-      cpass:new FormControl(null,Validators.required)
+      cpass:new FormControl(null,Validators.required),
+
+      
   });
 
-  constructor(private _router:Router,private _userService:UserService) { }
+  constructor(private _router:Router,private _userService:UserService,registerForm:FormGroup) { 
+
+    
+
+  }
 
   ngOnInit() {
   }
 
   register(){
+
+   
     if(!this.registerForm.valid || (this.registerForm.controls.password.value != this.registerForm.controls.cpass.value)){
         console.log('Invalid form'); return; 
     }
