@@ -12,8 +12,11 @@ export class LoginComponent implements OnInit {
 
   loginForm : FormGroup=new FormGroup({
     email:new FormControl(null,[Validators.email,Validators.required]),
-    password:new FormControl(null, Validators.required)
+    password:new FormControl(null,Validators.required)
   });
+  submitted = false;
+
+  get f() { return this.loginForm.controls; }
 
   constructor(private _router:Router,private _user:UserService) { }
 
@@ -24,7 +27,8 @@ export class LoginComponent implements OnInit {
     this._router.navigate(['/register']);
   }
 
-  login(){
+  login(){ 
+    this.submitted = true;
     if(!this.loginForm.valid){
       console.log('Invalid'); return;
     }

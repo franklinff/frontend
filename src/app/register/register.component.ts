@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
-import { error } from '@angular/compiler/src/util';
+import { MustMatch } from '../must-match.validator';
 
 
 @Component({
@@ -16,23 +16,22 @@ export class RegisterComponent implements OnInit {
       email:new FormControl(null,[Validators.email,Validators.required]),
       username:new FormControl(null,Validators.required),
       password: new FormControl(null,Validators.required),
-      cpass:new FormControl(null,Validators.required),
+      cpass:new FormControl(null,Validators.required) ,   
+    },{
+     //  validator: MustMatch(password,cpass) 
+  })
 
-      
-  });
 
-  constructor(private _router:Router,private _userService:UserService,registerForm:FormGroup) { 
+  submitted = false;
+  get f() { return this.registerForm.controls; }
 
-    
-
-  }
+  constructor(private _router:Router,private _userService:UserService) { }
 
   ngOnInit() {
   }
 
   register(){
-
-   
+    this.submitted = true;
     if(!this.registerForm.valid || (this.registerForm.controls.password.value != this.registerForm.controls.cpass.value)){
         console.log('Invalid form'); return; 
     }

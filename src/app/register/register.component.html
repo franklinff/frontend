@@ -12,24 +12,41 @@ box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.2);">
     <form [formGroup]="registerForm">
       <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
-        <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        <div *ngIf="!email.valid">{{email.errors| json}}</div>
+        <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">Email is required</div>
+            <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+        </div>
         
         <small id="emailHelp" class="form-text text-muted"></small>
       </div>
       <div class="form-group">
           <label for="exampleInputUsername">Username</label>
-          <input formControlName="username" type="text" class="form-control" id="exampleInputUsername" aria-describedby="userHelp" placeholder="username">
+          <input formControlName="username" type="text" class="form-control" id="exampleInputUsername" aria-describedby="userHelp" placeholder="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.username.errors.required">Username is required</div>
+            
+          </div>
           <small id="userHelp" class="form-text text-muted"></small>
       </div>
       <div class="form-group">
         <label for="passwordInput">Password</label>
-        <input formControlName="password" type="password" class="form-control" id="passwordInput" aria-describedby="passHelp" placeholder="password">
+        <input formControlName="password" type="password" class="form-control" id="passwordInput" aria-describedby="passHelp" placeholder="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"> 
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+            
+        </div>
         <small id="passHelp" class="form-text text-muted"></small>
       </div>
       <div class="form-group">
           <label for="CpasswordInput">Confirm Password</label>
-          <input formControlName="cpass" type="password" class="form-control" id="CpasswordInput" aria-describedby="CpassHelp" placeholder="password">
+          <input formControlName="cpass" type="password" class="form-control" id="CpasswordInput" aria-describedby="CpassHelp" placeholder="password" [ngClass]="{ 'is-invalid': submitted && f.cpass.errors }">
+          
+          <div *ngIf="submitted && f.cpass.errors" class="invalid-feedback">
+              <div *ngIf="f.cpass.errors.required">Retype the password</div>
+              <div *ngIf="f.cpass.errors.mustMatch">Passwords must match</div>        
+          </div>
+          
           <small id="CpassHelp" class="form-text text-muted"></small>
         </div>
       <div class="form-group" style="text-align:center;">
