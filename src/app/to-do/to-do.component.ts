@@ -13,6 +13,7 @@ import { FormArray } from '@angular/forms'
 })
 export class ToDoComponent implements OnInit {
 
+  title_list:String='';
   user_id:String='';
   head_title:String='';
   todoheadID:String='';
@@ -42,7 +43,7 @@ export class ToDoComponent implements OnInit {
 
   subtitleForm = this.fb.group({
     subtitle: ['', Validators.required],
-    headertodo_id:['']
+    headertodo_id:['',Validators.required]
   });
 
   ngOnInit() {
@@ -62,9 +63,11 @@ export class ToDoComponent implements OnInit {
     if(!this.profileForm.valid){
       console.log('Invalid form'); return; 
     }
-    this.subtitle = null; 
+     //
     this._user.title_of_toDo(JSON.stringify(this.profileForm.value)).subscribe(
+     
     data=> {  
+        this.title_list = null; 
         this.retriveToDoList();  
         error=> console.error(error); 
       }
@@ -111,11 +114,13 @@ export class ToDoComponent implements OnInit {
   }
 
   addSubtitle(){
-       //console.log(JSON.stringify(this.subtitleForm.value.headertodo_id));
-       //console.warn(this.subtitleForm.value.headertodo_id);
+       console.log(JSON.stringify(this.subtitleForm.value.headertodo_id));
+       console.warn(this.subtitleForm.value);
 
     if(!this.subtitleForm.valid){
-      console.log('Invalid form');this.subtitle = null;  return; 
+      console.log('Invalid form');
+      this.subtitle = null;
+      return; 
     }else{
       this.subtitle = null; 
       this._user.insertSubtitle(JSON.stringify(this.subtitleForm.value)).subscribe(   
@@ -143,12 +148,12 @@ export class ToDoComponent implements OnInit {
     this.listofsubtitles = data; 
   }
 
-  subtitleTaskDone(subtitle_id,head_title_id){
+  subtitleTaskDone(subtitle_id,head_title){
     this._user.taskDoneSubtitle(subtitle_id).subscribe( data=> {  
       console.log('I am in subtitleTaskDone'); 
       console.log(data); 
       //this.listSubtitles(data); 
-      this.viewHead(head_title_id);
+      //this.viewHead(to_do_headtitleid);
       error=> console.error(error); 
     }
   )

@@ -11,7 +11,7 @@
               </li>
 
           </ul>
-          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">+ Create list</button>
+          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">+ Create ToDo</button>
       </div>
       
       
@@ -22,8 +22,11 @@
         <div style="background-color:white;">
             <form [formGroup]="subtitleForm">
             <input [(ngModel)]="headertodo_id" type="hidden" formControlName="headertodo_id" class="form-control" value="{{ headertodo_id }}"> 
-            <input [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control"  [value]="subtitle" placeholder="+ Add a to-do">  
-            </form>  
+            
+
+            <input [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control"  [value]="subtitle" placeholder="+ Add subtitle for to-do">  
+            
+          </form>  
         </div>
          
         <div *ngFor="let subtitle of listofsubtitles">
@@ -48,7 +51,7 @@
              
               <form [formGroup]="profileForm">
               <div class="modal-body">     
-              <input type="text" formControlName="title_list" class="form-control" placeholder="List Name" required>
+              <input type="text" formControlName="title_list" value="" class="form-control" placeholder="List Name" required>
               <input [(ngModel)]="user_id" type="hidden" formControlName="user_id" class="form-control" value='{{ user_id }}'>  
               </div>
               <div class="modal-footer">
