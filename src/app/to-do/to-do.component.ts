@@ -3,7 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { FormArray } from '@angular/forms'
+import { FormArray } from '@angular/forms';
+
 
 
 @Component({
@@ -23,6 +24,7 @@ export class ToDoComponent implements OnInit {
   addTaskValue: string = '';
   subtitle='';
   listofsubtitles:[];
+  deleted_subtitles:[];
 
   constructor(private _user:UserService,private _router:Router,private fb: FormBuilder) { }
 
@@ -101,6 +103,7 @@ export class ToDoComponent implements OnInit {
     this._user.viewIndividualHead(id).subscribe( data=> {
          this.getSubtitles(id);  
           this.invidualTododetails(data);
+          this.deletd_subtitles(id);
          
           error=> console.error(error); 
         }
@@ -125,7 +128,8 @@ export class ToDoComponent implements OnInit {
       this.subtitle = null; 
       this._user.insertSubtitle(JSON.stringify(this.subtitleForm.value)).subscribe(   
         data=> { 
-             this.getSubtitles(this.subtitleForm.value.headertodo_id);  
+             this.getSubtitles(this.subtitleForm.value.headertodo_id); 
+             this.deletd_subtitles(this.subtitleForm.value.headertodo_id); 
             // console.log('addSubtitle() in component ');  
             error=> console.error(error); 
           }
@@ -144,8 +148,21 @@ export class ToDoComponent implements OnInit {
 
   listSubtitles(data){
     // console.log('listSUbtitles'); 
-     console.log(data);
+    // console.log(data);
     this.listofsubtitles = data; 
+  }
+
+  deletd_subtitles(user_id){
+    console.log('Ia m in deletd_subtitles');
+    this._user.subtitles_deletd(user_id).subscribe( data=> {    
+      this.listDeletdSubtitles(data);      
+      error=> console.error(error); 
+    }
+  )
+  }
+
+  listDeletdSubtitles(data){
+    this.deleted_subtitles = data; 
   }
 
   subtitleTaskDone(subtitle_id,to_do_headtitleid){
@@ -153,6 +170,7 @@ export class ToDoComponent implements OnInit {
       console.log('I am in subtitleTaskDone'); 
       console.log(data); 
       this.getSubtitles(to_do_headtitleid);
+      this.deletd_subtitles(to_do_headtitleid);
       //this.listSubtitles(data); 
       //this.viewHead(to_do_headtitleid);
       error=> console.error(error); 
@@ -162,6 +180,11 @@ export class ToDoComponent implements OnInit {
 
   submitEditHead(){
     console.warn(this.editTodoTitleForm.value);
+  }
+
+
+  showModal(){
+    alert('pop');
   }
 
 }

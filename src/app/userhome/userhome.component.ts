@@ -11,6 +11,8 @@ import { Router } from '@angular/router'
 export class UserhomeComponent implements OnInit {
   
   username:String='';
+//  email:String='';
+
   ngOnInit() {
   }
 
@@ -23,8 +25,10 @@ export class UserhomeComponent implements OnInit {
   }
 
   addName(data){ 
-   // console.log(data);   
+    console.log(data);   
     this.username = data.username;
+    //this.email = data.email;
+    //this.user_id = data._id;
   }
 
   logout(){
@@ -33,6 +37,13 @@ export class UserhomeComponent implements OnInit {
       data=>{console.log(data);this._router.navigate(['/login'])},
       error=>console.error(error)
     )
+  }
+
+  
+
+  update_redirect(){
+
+    this._router.navigate(['/editprofile']);
   }
 
 }

@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
     password:new FormControl(null,Validators.required)
   });
   submitted = false;
+  error={message:null};
 
   get f() { return this.loginForm.controls; }
 
@@ -30,15 +31,22 @@ export class LoginComponent implements OnInit {
   login(){ 
     this.submitted = true;
     if(!this.loginForm.valid){
-      console.log('Invalid'); return;
+      console.log('Invalid'); 
+      return;
     }
     //console.log(JSON.stringify(this.loginForm.value));
     this._user.login(JSON.stringify(this.loginForm.value)).subscribe(
         data =>{ 
         console.log(data);
+
+        this._user.isloggedin=data;
         this._router.navigate(['/user']);
         },
-        error => console.error(error)
+        (error)=>{
+this.error.message = error.error.message;
+console.log(error);
+        } 
+        
     )
   }
 

@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
+  isloggedin:any=false;
+  
   constructor(private _http:HttpClient) { }
 
   register(body:any){
@@ -17,6 +19,7 @@ export class UserService {
   }
 
   login(body:any){
+
     return this._http.post('http://127.0.0.1:3000/users/login',body,{
       observe:'body',
       withCredentials:true,
@@ -94,15 +97,30 @@ export class UserService {
 
   taskDoneSubtitle(id){
     return this._http.put(`http://127.0.0.1:3000/users/subtitleChecked`, {id},{
-
       observe:'body',
       headers:new HttpHeaders().append('Content-Type','application/json')
-
     }
     );
   }
 
+  subtitles_deletd(body:any):Observable<any>{
+    try { 
+      // console.log('listSubtitles service');
+       console.log(body);
+      let header_title_id = new HttpParams().set('title_head_id',body);
+      return this._http.get('http://127.0.0.1:3000/users/deletdSubtitles/',{params:header_title_id})
+     }catch(e) {
+       console.log(e);
+     }
+  }
 
+  profileUpdate(body:any){
+   // console.log(body);
+    return this._http.post('http://127.0.0.1:3000/users/updateProfile',body,{
+      observe:'body',
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    });
+  }
 
 
 

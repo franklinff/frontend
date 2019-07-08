@@ -7,7 +7,10 @@
               <li *ngFor="let hero of heroes">
                   <a [routerLink]="" (click)="viewHead(hero._id)">{{ hero.listTitle }}</a>
                   <!-- <a [routerLink]="" (click)="deleteTOdo(hero._id)">Edit</a>  -->
-                  <a class="btn" data-toggle="modal" data-target="#editListHead">Edit</a>
+                  <!-- <a class="btn" data-toggle="modal" data-target="#editListHead">Edit</a> -->
+
+                  <a class="btn" data-toggle="modal"  (click)="showModal()">Edit</a>
+                  
               </li>
 
           </ul>
@@ -22,11 +25,8 @@
         <div style="background-color:white;">
             <form [formGroup]="subtitleForm">
             <input [(ngModel)]="headertodo_id" type="hidden" formControlName="headertodo_id" class="form-control" value="{{ headertodo_id }}"> 
-            
-
-            <input [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control"  [value]="subtitle" placeholder="+ Add subtitle for to-do">  
-            
-          </form>  
+            <input [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control"  [value]="subtitle" placeholder="+ Add subtitle for to-do">     
+             </form>  
         </div>
          
         <div *ngFor="let subtitle of listofsubtitles">
@@ -34,6 +34,16 @@
                 <label><input type="checkbox" (change)="subtitleTaskDone(subtitle._id,subtitle.to_do_headtitleid)">{{ subtitle.sub_title }}</label>
             </div>
         </div>
+
+        <div *ngIf="!deleted_subtitles || deleted_subtitles.length > 0">
+            <p style="color: red">Deleted list</p>
+        </div>
+        <div *ngFor="let subtitle of deleted_subtitles">  
+          <div class="checkbox">
+              <label><del><input type="checkbox">{{ subtitle.sub_title }}</del></label>
+          </div>
+        </div>
+        
 
       </div>
 
@@ -72,7 +82,7 @@
               <h4 class="modal-title">Edit list</h4>
             </div>
            
-            <form [formGroup]="editTodoTitleForm">
+            <form [formGroup]="editTodoTitleForm" >
             <div class="modal-body">     
             <input type="text" formControlName="title_list" class="form-control" required>
             <input [(ngModel)]="user_id" type="hidden" formControlName="user_id" class="form-control" value='{{ user_id }}'>  
