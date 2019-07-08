@@ -162,13 +162,17 @@ export class ToDoComponent implements OnInit {
   }
 
   listDeletdSubtitles(data){
+
+console.log(data);
+console.log('DeletdSubtitles');
+
     this.deleted_subtitles = data; 
   }
 
   subtitleTaskDone(subtitle_id,to_do_headtitleid){
     this._user.taskDoneSubtitle(subtitle_id).subscribe( data=> {  
-      console.log('I am in subtitleTaskDone'); 
-      console.log(data); 
+     // console.log('I am in subtitleTaskDone'); 
+     // console.log(data); 
       this.getSubtitles(to_do_headtitleid);
       this.deletd_subtitles(to_do_headtitleid);
       //this.listSubtitles(data); 
@@ -181,6 +185,18 @@ export class ToDoComponent implements OnInit {
   submitEditHead(){
     console.warn(this.editTodoTitleForm.value);
   }
+
+  undosubtitleTaskDone(subtitle_id,to_do_headtitleid){
+    //  console.log(subtitle_id); 
+    //  console.log(to_do_headtitleid);
+     this._user.uncheckSubtitle(subtitle_id).subscribe( data=>{
+      console.log(data); 
+      this.getSubtitles(to_do_headtitleid);
+      this.deletd_subtitles(to_do_headtitleid);
+     })
+  }
+
+
 
 
   showModal(){

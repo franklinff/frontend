@@ -40,7 +40,7 @@
         </div>
         <div *ngFor="let subtitle of deleted_subtitles">  
           <div class="checkbox">
-              <label><del><input type="checkbox">{{ subtitle.sub_title }}</del></label>
+              <label><del><input type="checkbox"(change)="undosubtitleTaskDone(subtitle._id,subtitle.to_do_headtitleid)" >{{ subtitle.sub_title }}</del></label>
           </div>
         </div>
         

@@ -122,6 +122,12 @@ export class UserService {
     });
   }
 
-
+  uncheckSubtitle(id){
+    return this._http.put(`http://127.0.0.1:3000/users/uncheckedSubtitle`, {id},{
+      observe:'body',
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    }
+    );
+  }
 
 }

@@ -1,0 +1,19 @@
+<h3>Update Profile</h3>
+
+<form [formGroup]="updateprofileForm">
+Username
+<input [(ngModel)]="username" formControlName="username" type="text" class="form-control" id="username">
+
+Email
+<input [(ngModel)]="email" formControlName="email" type="text" class="form-control" id="email">
+
+Password
+<input formControlName="existingpassword" type="password" class="form-control" id="existingpassword" >
+
+Set new password
+<input formControlName="newPassword" type="password" class="form-control" id="newPassword" >
+<input [(ngModel)]="user_id" formControlName="user_id" type="hidden" class="form-control" id="user_id" value="{{ user_id }} ">
+
+<button type="button" class="btn btn-primary" (click)="updated_profile_data()" >Save</button>
+<button type="button" class="btn btn-light" (click)="redirect_ontodos()" >Cancel</button>
+</form>
