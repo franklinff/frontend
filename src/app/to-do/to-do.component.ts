@@ -14,6 +14,8 @@ import { FormArray } from '@angular/forms';
 })
 export class ToDoComponent implements OnInit {
 
+
+
   title_list:String='';
   user_id:String='';
   head_title:String='';
@@ -39,7 +41,7 @@ export class ToDoComponent implements OnInit {
 
   editTodoTitleForm = this.fb.group({
     title_list: ['', Validators.required],
-    user_id:['']
+    _id:['']
   });
 
 
@@ -182,9 +184,7 @@ console.log('DeletdSubtitles');
   )
   }
 
-  submitEditHead(){
-    console.warn(this.editTodoTitleForm.value);
-  }
+
 
   undosubtitleTaskDone(subtitle_id,to_do_headtitleid){
     //  console.log(subtitle_id); 
@@ -199,8 +199,31 @@ console.log('DeletdSubtitles');
 
 
 
-  showModal(){
-    alert('pop');
+  showModal(data){
+
+  $("#editListHead").modal('show');
+  this.headertodo = data.listTitle;
+  console.log(data);
+
+  this.editTodoTitleForm = this.fb.group({
+    title_list: [data.listTitle, Validators.required],
+    _id:[data._id]
+    });
+   
   }
+
+
+  submitEditHead(){
+    console.log(this.editTodoTitleForm.value);
+    this._user.editTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
+    console.log(data);
+    this.retriveToDoList();
+    this.viewHead(this.editTodoTitleForm.value._id);
+
+     })
+  
+  }
+
+
 
 }

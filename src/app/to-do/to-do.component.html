@@ -7,9 +7,9 @@
               <li *ngFor="let hero of heroes">
                   <a [routerLink]="" (click)="viewHead(hero._id)">{{ hero.listTitle }}</a>
                   <!-- <a [routerLink]="" (click)="deleteTOdo(hero._id)">Edit</a>  -->
-                  <!-- <a class="btn" data-toggle="modal" data-target="#editListHead">Edit</a> -->
+                   <!-- <a class="btn" data-toggle="modal" data-target="#editListHead">Edit</a> --> 
 
-                  <a class="btn" data-toggle="modal"  (click)="showModal()">Edit</a>
+                   <a class="btn" data-toggle="modal"  (click)="showModal(hero)">Edit</a> 
                   
               </li>
 
@@ -84,14 +84,12 @@
            
             <form [formGroup]="editTodoTitleForm" >
             <div class="modal-body">     
-            <input type="text" formControlName="title_list" class="form-control" required>
-            <input [(ngModel)]="user_id" type="hidden" formControlName="user_id" class="form-control" value='{{ user_id }}'>  
+            <input [(ngModel)]="title_list" type="text" formControlName="title_list" class="form-control" required>
+            <input [(ngModel)]="_id" type="hidden" formControlName="_id" class="form-control" value='{{ _id }}'>  
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-trash"></span> Trash 
-              </button> 
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary" data-dismiss="modal" on-click="submitEditHead()">Done</button>  
             </div>
 
