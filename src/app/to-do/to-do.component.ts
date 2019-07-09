@@ -4,7 +4,9 @@ import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
-
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as bootstrap from "bootstrap";
+import * as $AB from 'jquery'; 
 
 
 @Component({
@@ -13,9 +15,7 @@ import { FormArray } from '@angular/forms';
   styleUrls: ['./to-do.component.css']
 })
 export class ToDoComponent implements OnInit {
-
-
-
+ 
   title_list:String='';
   user_id:String='';
   head_title:String='';
@@ -164,10 +164,8 @@ export class ToDoComponent implements OnInit {
   }
 
   listDeletdSubtitles(data){
-
-console.log(data);
-console.log('DeletdSubtitles');
-
+    console.log(data);
+    console.log('DeletdSubtitles');
     this.deleted_subtitles = data; 
   }
 
@@ -184,8 +182,6 @@ console.log('DeletdSubtitles');
   )
   }
 
-
-
   undosubtitleTaskDone(subtitle_id,to_do_headtitleid){
     //  console.log(subtitle_id); 
     //  console.log(to_do_headtitleid);
@@ -196,20 +192,15 @@ console.log('DeletdSubtitles');
      })
   }
 
-
-
-
   showModal(data){
+    $("#editListHead").modal('show');
+    this.headertodo = data.listTitle;
+    console.log(data);
 
-  $("#editListHead").modal('show');
-  this.headertodo = data.listTitle;
-  console.log(data);
-
-  this.editTodoTitleForm = this.fb.group({
-    title_list: [data.listTitle, Validators.required],
-    _id:[data._id]
-    });
-   
+    this.editTodoTitleForm = this.fb.group({
+      title_list: [data.listTitle, Validators.required],
+      _id:[data._id]
+      }); 
   }
 
 
@@ -220,10 +211,10 @@ console.log('DeletdSubtitles');
     this.retriveToDoList();
     this.viewHead(this.editTodoTitleForm.value._id);
 
-     })
-  
+     })    
   }
 
 
 
 }
+
