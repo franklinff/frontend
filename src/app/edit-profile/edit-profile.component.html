@@ -8,12 +8,15 @@ Email
 <input [(ngModel)]="email" formControlName="email" type="text" class="form-control" id="email">
 
 Password
-<input formControlName="existingpassword" type="password" class="form-control" id="existingpassword" >
+<input formControlName="existingpassword" type="password" class="form-control" id="existingpassword" placeholder="Please enter login password">
+<div *ngIf="submitted && f.existingpassword.errors" class="invalid-feedback">
+<div *ngIf="f.existingpassword.errors.required">Please enter login password</div>
+</div> 
 
-Set new password
-<input formControlName="newPassword" type="password" class="form-control" id="newPassword" >
-<input [(ngModel)]="user_id" formControlName="user_id" type="hidden" class="form-control" id="user_id" value="{{ user_id }} ">
+<!-- Set new password
+<input formControlName="newPassword" type="password" class="form-control" id="newPassword" >-->
+<input [(ngModel)]="user_id" formControlName="user_id" type="hidden" class="form-control" id="user_id" value="{{ user_id }} "> 
 
-<button type="button" class="btn btn-primary" (click)="updated_profile_data()" >Save</button>
-<button type="button" class="btn btn-light" (click)="redirect_ontodos()" >Cancel</button>
+<button type="button" class="btn btn-primary"  style="margin-top: 15px"   (click)="updated_profile_data()" >Save</button>
+<button type="button" class="btn btn-light"  style="margin-top: 15px" (click)="redirect_ontodos()" >Cancel</button>
 </form>
