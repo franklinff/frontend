@@ -8,12 +8,13 @@
                   <a [routerLink]="" (click)="viewHead(hero._id)">{{ hero.listTitle }}</a>
                   <!-- <a [routerLink]="" (click)="deleteTOdo(hero._id)">Edit</a>  -->
                    <!-- <a class="btn" data-toggle="modal" data-target="#editListHead">Edit</a> --> 
-                   <a  class="btn" data-toggle="modal"  (click)="showModal(hero)">Edit</a> 
+                   <a  class="btn" data-toggle="modal"  (click)="showModal(hero)">View</a> 
               </li>
 
           </ul>
-          <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">+ Create ToDo</button>
-      </div>
+          <!-- <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal">+ Create ToDo</button> -->
+          <button type="button" class="btn btn-outline-primary" data-toggle="modal" (click)="openModalforAdd()">+ Create ToDo</button>
+        </div>
       
       
       <div class="col-sm-10" style="background-color:pink;"> 
@@ -59,7 +60,7 @@
              
               <form [formGroup]="profileForm">
               <div class="modal-body">     
-              <input type="text" formControlName="title_list" value="" class="form-control" placeholder="List Name" required>
+              <input type="text" formControlName="title_list" value="" class="form-control title_list" placeholder="List Name" required>
               <input [(ngModel)]="user_id" type="hidden" formControlName="user_id" class="form-control" value='{{ user_id }}'>  
               </div>
               <div class="modal-footer">
@@ -78,23 +79,24 @@
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title">Edit list</h4>
+              <a data-dismiss="modal">Close</a>
             </div>
-           
+
             <form [formGroup]="editTodoTitleForm" >
             <div class="modal-body">     
             <input [(ngModel)]="title_list" type="text" formControlName="title_list" class="form-control" required>
             <input [(ngModel)]="_id" type="hidden" formControlName="_id" class="form-control" value='{{ _id }}'>  
             </div>
 
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal" on-click="submitEditHead()">Done</button>  
+            <div class="modal-footer">    
+              <button type="button" class="btn btn-primary" data-dismiss="modal" on-click="submitEditHead()">Save</button>  
+              <button type="button" class="btn btn-default" data-dismiss="modal" on-click="deleteHead()">Delete</button> 
             </div>
 
             </form>    
           </div>  
         </div>
-  </div>
+    </div>
 
 
  

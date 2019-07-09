@@ -71,17 +71,18 @@ export class ToDoComponent implements OnInit {
     this._user.title_of_toDo(JSON.stringify(this.profileForm.value)).subscribe(
      
     data=> {  
-        this.title_list = null; 
+        this.title_list = ''; 
         this.retriveToDoList();  
         error=> console.error(error); 
       }
     ) 
+
+    //this.title_list = '';
   }
 
   retriveToDoList(){   
-   // console.log("Id: ", this.user_id);
+    this.deleted_subtitles = [];
     this._user.getToDoList(this.user_id).subscribe(data => {
-     // console.log(data);   
       this.listToDoFrontend(data);
     });
   }
@@ -210,11 +211,21 @@ export class ToDoComponent implements OnInit {
     console.log(data);
     this.retriveToDoList();
     this.viewHead(this.editTodoTitleForm.value._id);
-
      })    
   }
 
+  deleteHead(){
+    console.log(this.editTodoTitleForm.value);
+    this._user.deleteTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
+      this.retriveToDoList();
+      this.headertodo = '';
+    })
+  }
 
+  openModalforAdd(){
+    $("#myModal").modal('show');
+    $(".title_list").val('');
+  }
 
 }
 
