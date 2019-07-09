@@ -10,6 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './user.service';
 import { ToDoComponent } from './to-do/to-do.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -18,7 +21,8 @@ import { ToDoComponent } from './to-do/to-do.component';
     LoginComponent,
     RegisterComponent,
     UserhomeComponent,
-    ToDoComponent
+    ToDoComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +30,9 @@ import { ToDoComponent } from './to-do/to-do.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    
+    NgbModule, 
+    NgbPaginationModule,
+    NgbAlertModule,   
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
