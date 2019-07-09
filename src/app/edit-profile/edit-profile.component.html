@@ -1,4 +1,4 @@
-<h3>Update Profile</h3>
+<h3 style="margin-left: 200px;">Update Profile</h3>
 
 <form [formGroup]="updateprofileForm">
 Username
@@ -23,7 +23,7 @@ Password
 
 
  Set new password
-<input formControlName="newPassword" type="password" class="form-control" id="newPassword" >
+<input formControlName="newPassword" type="password" class="form-control" id="newPassword" placeholder="Please enter password of your choice">
 <div *ngIf="submitted && f.newPassword.errors" style="color: red">
        Please enter a password
 </div>
