@@ -3,18 +3,31 @@
 <form [formGroup]="updateprofileForm">
 Username
 <input [(ngModel)]="username" formControlName="username" type="text" class="form-control" id="username">
+<div *ngIf="submitted && f.username.errors" style="color: red">
+        Please enter a Username
+ </div>
+
 
 Email
 <input [(ngModel)]="email" formControlName="email" type="text" class="form-control" id="email">
+<div *ngIf="submitted && f.email.errors" style="color: red">
+        Please enter valid Email.
+ </div>
+
 
 Password
 <input formControlName="existingpassword" type="password" class="form-control" id="existingpassword" placeholder="Please enter login password">
-<div *ngIf="submitted && f.existingpassword.errors" class="invalid-feedback">
-<div *ngIf="f.existingpassword.errors.required">Please enter login password</div>
-</div> 
+<div *ngIf="submitted && f.existingpassword.errors" style="color: red">
+    Password is required
+</div>        
 
-<!-- Set new password
-<input formControlName="newPassword" type="password" class="form-control" id="newPassword" >-->
+
+ Set new password
+<input formControlName="newPassword" type="password" class="form-control" id="newPassword" >
+<div *ngIf="submitted && f.newPassword.errors" style="color: red">
+       Please enter a password
+</div>
+
 <input [(ngModel)]="user_id" formControlName="user_id" type="hidden" class="form-control" id="user_id" value="{{ user_id }} "> 
 
 <button type="button" class="btn btn-primary"  style="margin-top: 15px"   (click)="updated_profile_data()" >Save</button>

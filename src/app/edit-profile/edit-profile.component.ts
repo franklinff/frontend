@@ -13,7 +13,7 @@ export class EditProfileComponent implements OnInit {
   username='';
   email='';
   existingpassword='';
-//  newPassword='';
+  newPassword='';
   user_id='';
   submitted = false;
 
@@ -22,7 +22,7 @@ export class EditProfileComponent implements OnInit {
       email:new FormControl(null,[Validators.email,Validators.required]),
       username:new FormControl(null,Validators.required),
       existingpassword: new FormControl(null,Validators.required),
-    // newPassword:new FormControl(null,Validators.required) ,
+      newPassword:new FormControl(null,Validators.required) ,
       user_id:new FormControl(null,Validators.required) 
   })
 
@@ -51,6 +51,12 @@ export class EditProfileComponent implements OnInit {
   updated_profile_data(){
     this.submitted = true;
     //console.warn(this.updateprofileForm.value);
+    if(!this.updateprofileForm.valid){   
+      console.log('Invalid form'); return; 
+    }
+
+
+
     this._user.profileUpdate(JSON.stringify(this.updateprofileForm.value))
     .subscribe(
         data=> {
