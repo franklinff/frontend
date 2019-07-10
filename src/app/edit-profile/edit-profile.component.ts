@@ -16,6 +16,7 @@ export class EditProfileComponent implements OnInit {
   newPassword='';
   user_id='';
   submitted = false;
+  wrong_pwd = false;
 
 
   updateprofileForm:FormGroup = new FormGroup({
@@ -65,6 +66,7 @@ export class EditProfileComponent implements OnInit {
             console.log('Profile updated');
             this._router.navigate(['/user']);
           }else{
+            this.wrong_pwd = true;
             console.log('Profile not updated');
           }
           }
