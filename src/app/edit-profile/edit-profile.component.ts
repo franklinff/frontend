@@ -56,15 +56,13 @@ export class EditProfileComponent implements OnInit {
       console.log('Invalid form'); return; 
     }
 
-
-
     this._user.profileUpdate(JSON.stringify(this.updateprofileForm.value))
     .subscribe(
         data=> {
           console.log(data);
           if(data == true){
             console.log('Profile updated');
-            this._router.navigate(['/user']);
+            this._router.navigate(['/lists']);
           }else{
             this.wrong_pwd = true;
             console.log('Profile not updated');

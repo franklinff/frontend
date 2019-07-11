@@ -144,6 +144,23 @@ export class UserService {
     });
   }
 
+  subtitlePermanentDelete(body:any) {
+    return this._http.post('http://127.0.0.1:3000/users/PermanentDeleteSubtitle',body,{
+      observe:'body',
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    });
+  }
+
+  editSubtitle(body:any){
+  //  console.log(body);
+    return this._http.post('http://127.0.0.1:3000/users/subtitleUpdate',body,{
+      observe:'body',
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    });
+  }
+
+
+
   
 
 }

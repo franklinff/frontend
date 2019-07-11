@@ -10,19 +10,19 @@ import { UserService } from '../user.service';
 })
 export class LoginComponent implements OnInit {
 
+  submitted = false;
+  error={message:null};
+
   loginForm : FormGroup=new FormGroup({
     email:new FormControl(null,[Validators.email,Validators.required]),
     password:new FormControl(null,Validators.required)
   });
-  submitted = false;
-  error={message:null};
 
   get f() { return this.loginForm.controls; }
 
   constructor(private _router:Router,private _user:UserService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   moveToRegister(){
     this._router.navigate(['/register']);
@@ -37,16 +37,14 @@ export class LoginComponent implements OnInit {
     //console.log(JSON.stringify(this.loginForm.value));
     this._user.login(JSON.stringify(this.loginForm.value)).subscribe(
         data =>{ 
-        console.log(data);
-
-        this._user.isloggedin=data;
-        this._router.navigate(['/user']);
+          console.log(data);
+          this._user.isloggedin=data;
+          this._router.navigate(['/lists']);
         },
         (error)=>{
-this.error.message = error.error.message;
-console.log(error);
+          this.error.message = error.error.message;
+          console.log(error);
         } 
-        
     )
   }
 
