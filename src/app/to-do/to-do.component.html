@@ -22,15 +22,20 @@
         <div style="background-color:orange;">
             <form [formGroup]="subtitleForm">
             <input [(ngModel)]="headertodo_id" type="hidden" formControlName="headertodo_id" class="form-control" value="{{ headertodo_id }}"> 
-            <input [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control"  [value]="subtitle" placeholder="+ Add subtitle for to-do">     
-             </form>  
+            
+            
+            
+
+            <input *ngIf="headertodo_id" [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control"  [value]="subtitle" placeholder="+ Add subtitle for to-do">     
+           
+            </form>  
         </div>
          
         <div *ngFor="let subtitle of listofsubtitles">
             <input type="checkbox" (change)="subtitleTaskDone(subtitle._id,subtitle.to_do_headtitleid)">
             {{ subtitle.sub_title }}
-            <button (click)="openModalforEditSubtitle(subtitle)"  type="button" class="btn btn-primary btn-sm" style="margin:5px;">View</button>
-            <button on-click="subtitle_permanent_delete(subtitle)"  type="button" class="btn btn-danger btn-sm">Delete</button>
+            <button (click)="openModalforEditSubtitle(subtitle)"  type="button" class="btn btn-primary btn-sm" style="margin:5px;">Edit</button>
+            <!-- <button on-click="subtitle_permanent_delete(subtitle)"  type="button" class="btn btn-danger btn-sm">Delete</button> -->
              <br />
         </div>
 
@@ -40,7 +45,7 @@
         <div *ngFor="let subtitle of deleted_subtitles">  
           <div class="checkbox">
               <label><del><input type="checkbox"(change)="undosubtitleTaskDone(subtitle._id,subtitle.to_do_headtitleid)" >{{ subtitle.sub_title }}</del></label>
-              
+              <button on-click="subtitle_permanent_delete(subtitle)"  type="button" class="btn btn-danger btn-sm">Delete</button>
             </div>
         </div>
         

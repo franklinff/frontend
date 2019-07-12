@@ -6,14 +6,21 @@ Username
 <div *ngIf="submitted && f.username.errors" style="color: red">
         Please enter a Username
  </div>
-
+ <div class="col-xs-12" style="height:17px;"></div>
 
 Email
 <input [(ngModel)]="email" formControlName="email" type="text" class="form-control" id="email">
 <div *ngIf="submitted && f.email.errors" style="color: red">
         Please enter valid Email.
 </div>
+<div class="col-xs-12" style="height:17px;"></div>
 
+Set new password
+<input formControlName="newPassword" type="password" class="form-control" id="newPassword" placeholder="Set password for further use.">
+<div *ngIf="submitted && f.newPassword.errors" style="color: red">
+       Please enter a password
+</div>
+<div class="col-xs-12" style="height:17px;"></div>
 
 Password
 <input formControlName="existingpassword" type="password" class="form-control" id="existingpassword" placeholder="Please enter login password.">
@@ -23,13 +30,7 @@ Password
 <div *ngIf="submitted && wrong_pwd" style="color: red">
        Please enter correct login password.
 </div>        
-
-
-Set new password
-<input formControlName="newPassword" type="password" class="form-control" id="newPassword" placeholder="Set password for further use.">
-<div *ngIf="submitted && f.newPassword.errors" style="color: red">
-       Please enter a password
-</div>
+<div class="col-xs-12" style="height:10px;"></div>
 
 <input [(ngModel)]="user_id" formControlName="user_id" type="hidden" class="form-control" id="user_id" value="{{ user_id }} "> 
 

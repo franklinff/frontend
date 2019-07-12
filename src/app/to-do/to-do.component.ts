@@ -160,7 +160,11 @@ export class ToDoComponent implements OnInit {
 
   deletd_subtitles(user_id){
     console.log('Ia m in deletd_subtitles');
-    this._user.subtitles_deletd(user_id).subscribe( data=> {    
+    this._user.subtitles_deletd(user_id).subscribe( data=> { 
+      
+      console.log('DeletdSubtitles'); 
+      console.log(data);
+
       this.listDeletdSubtitles(data);      
       error=> console.error(error); 
     }
@@ -169,7 +173,6 @@ export class ToDoComponent implements OnInit {
 
   listDeletdSubtitles(data){
     console.log(data);
-    console.log('DeletdSubtitles');
     this.deleted_subtitles = data; 
   }
 
@@ -231,22 +234,17 @@ export class ToDoComponent implements OnInit {
 
 
   subtitle_permanent_delete(data){
-     console.log(JSON.stringify(this.editSubtitleForm.value));
-    // console.log(data.to_do_headtitleid);
     this._user.subtitlePermanentDelete(JSON.stringify(data)).subscribe( result=>{
-       console.log(result);
-    this.getSubtitles(data.to_do_headtitleid);
+       this.viewHead(data.to_do_headtitleid);
      });
   }
 
   openModalforEditSubtitle(data){
-
     console.log(data);
     $("#editSubtitle").modal('show');
     this.subtitle_edit = data.sub_title;
     this.subtitle_id =data._id;
     this.head_todo_id =data.to_do_headtitleid;
-
     console.log(data);
   }
 
@@ -256,7 +254,6 @@ export class ToDoComponent implements OnInit {
     this._user.editSubtitle(JSON.stringify(this.editSubtitleForm.value)).subscribe( result=>{
       console.log(result);
       this.getSubtitles(this.editSubtitleForm.value.head_todo_id);
-
     });
   }
 

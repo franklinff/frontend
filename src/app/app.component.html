@@ -29,11 +29,10 @@
 
       </ul>
 
-      <ul  *ngIf="user.isloggedin"  class="nav nav-tabs nav-item dropdown navbar-right">
-
-            
-
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"><app-userhome></app-userhome></a>
+      <ul  *ngIf="user.isloggedin"  class="nav nav-tabs nav-item dropdown navbar-right" >
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+            <app-userhome></app-userhome>
+        </a>
         <div class="dropdown-menu">
             <a class="dropdown-item"  [routerLink]="['/editprofile']">Update profile</a>
             <a class="dropdown-item"  (click)="logout()">Logout</a>
