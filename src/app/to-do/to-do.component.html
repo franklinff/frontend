@@ -8,7 +8,7 @@
               <a [routerLink]="" (click)="viewHead(hero._id)">{{ hero.listTitle }}</a>                 
               
               <span style="float:right;">
-              <a [routerLink]="" data-toggle="modal" (click)="showModal(hero)" style="color:olivedrab">View</a> 
+              <a [routerLink]="" data-toggle="modal" (click)="showModal(hero)" style="color:olivedrab"><p><span class="glyphicon glyphicon-pencil">&#x270f;</span></p></a> 
               </span> 
               </li> 
             </ul>
@@ -23,9 +23,6 @@
             <form [formGroup]="subtitleForm">
             <input [(ngModel)]="headertodo_id" type="hidden" formControlName="headertodo_id" class="form-control" value="{{ headertodo_id }}"> 
             
-            
-            
-
             <input *ngIf="headertodo_id" [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control"  [value]="subtitle" placeholder="+ Add subtitle for to-do">     
            
             </form>  

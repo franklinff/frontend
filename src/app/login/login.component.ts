@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ export class LoginComponent implements OnInit {
 
   submitted = false;
   error={message:null};
+  infoMessage = '';
 
   loginForm : FormGroup=new FormGroup({
     email:new FormControl(null,[Validators.email,Validators.required]),
@@ -20,9 +22,20 @@ export class LoginComponent implements OnInit {
 
   get f() { return this.loginForm.controls; }
 
-  constructor(private _router:Router,private _user:UserService) { }
+  constructor(private _router:Router,private _user:UserService,private route: ActivatedRoute) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+        if(params.registered !== undefined && params.registered === 'true') {
+            this.infoMessage = 'Registration Successful! Please Login!';
+        }
+      });
+
+      setTimeout(function() {
+        this.infoMessage = false;
+        console.log(this.infoMessage);
+        }.bind(this), 3000);
+   }
 
   moveToRegister(){
     this._router.navigate(['/register']);

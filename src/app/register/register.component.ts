@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
     this._userService.register(JSON.stringify(this.registerForm.value)).subscribe(
         data=> { 
           console.log(data);
-          this._router.navigate(['/login']);
+          this._router.navigate(['/login'],{queryParams: { registered: 'true'}});
         error=> console.error(error) ; 
         }
     )
