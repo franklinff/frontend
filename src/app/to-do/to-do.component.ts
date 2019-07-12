@@ -6,7 +6,8 @@ import { FormBuilder } from '@angular/forms';
 import { FormArray } from '@angular/forms';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as bootstrap from "bootstrap";
-import * as $AB from 'jquery'; 
+import * as $AB from 'jquery';
+import { ActivatedRoute } from '@angular/router'; 
 
 @Component({
   selector: 'app-to-do',
@@ -30,8 +31,9 @@ export class ToDoComponent implements OnInit {
   subtitle_id:String='';
   //todo_id='';
   head_todo_id='';
+  infoMessage = '';
 
-  constructor(private _user:UserService,private _router:Router,private fb: FormBuilder) { }
+  constructor(private _user:UserService,private _router:Router,private fb: FormBuilder,private route: ActivatedRoute) { }
 
   loggedinuser(data){
     this.user_id = data._id
@@ -62,6 +64,18 @@ export class ToDoComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe(params => {
+      if(params.profile_updated !== undefined && params.profile_updated === 'true') {
+          this.infoMessage = 'User profile updated!';
+      }
+    });
+    setTimeout(function() {
+      this.infoMessage = false;
+      console.log(this.infoMessage);
+    }.bind(this), 4200);
+
+
     const subscription = this._user.user().subscribe(data => {
       this.loggedinuser(data);
       this.retriveToDoList();
@@ -69,7 +83,7 @@ export class ToDoComponent implements OnInit {
     },
       error =>this._router.navigate(['/login'])
     );
-  //  console.log('hello');
+
    }
 
   onSubmit(){

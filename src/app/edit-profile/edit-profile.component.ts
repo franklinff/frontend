@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators,FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -61,8 +62,8 @@ export class EditProfileComponent implements OnInit {
         data=> {
           console.log(data);
           if(data == true){
-            console.log('Profile updated');
-            this._router.navigate(['/lists']);
+          console.log('Profile updated');
+            this._router.navigate(['/lists'],{queryParams: { profile_updated: 'true'}});
           }else{
             this.wrong_pwd = true;
             console.log('Profile not updated');
