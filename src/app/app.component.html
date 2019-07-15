@@ -1,7 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-  <a class="navbar-brand" [routerLink]="['/lists']">ToDo app</a>
+  <a class="navbar-brand" [routerLink]="['/lists']" style="background-color: blanchedalmond">ToDo app</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
       aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -26,18 +26,17 @@
             <a class="nav-link" [routerLink]="['/lists']" routerLinkActive="active">To do page</a>
         </li>
 
-
       </ul>
 
-      <ul  *ngIf="user.isloggedin"  class="nav nav-tabs nav-item dropdown navbar-right" >
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-            <app-userhome></app-userhome>
-        </a>
-        <div class="dropdown-menu">
-            <a class="dropdown-item"  [routerLink]="['/editprofile']">Update profile</a>
-            <a class="dropdown-item"  (click)="logout()">Logout</a>
-        </div>
-     </ul>
+      <ul  *ngIf="user.isloggedin"  class="nav navbar-nav nav-item dropdown" >  
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                <app-userhome></app-userhome>
+            </a>           
+            <div class="dropdown-menu">
+                <a class="dropdown-item" [routerLink]="['/editprofile']">Update profile</a>
+                <a class="dropdown-item" (click)="logout()">Logout</a>
+            </div>
+      </ul>
 
   </div>
 </nav>
