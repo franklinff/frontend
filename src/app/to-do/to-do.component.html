@@ -1,13 +1,16 @@
 <div class="row" style="width: 100vw; position: relative;margin-left: -50vw;left: 50%;height: 100%;">
 
+
+
   <div class="container-fluid">
 
       <p class="alert alert-success" *ngIf="infoMessage.length > 0">
           <strong>{{ infoMessage }}</strong>
       </p>
 
-      <div class="row">
+      <div class="row" style="height:547px">
       <div class="col-sm-2" style="background-color:lightgoldenrodyellow;">
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" (click)="openModalforAdd()" style="background-color:orange;margin-left: 35px;margin-top: 15px;margin-bottom: 10px">+ Create ToDo</button>
             <ul *ngFor="let hero of heroes">         
               <li>
               <a [routerLink]="" (click)="viewHead(hero._id)">{{ hero.listTitle }}</a>                 
@@ -16,12 +19,12 @@
               </span> 
               </li> 
             </ul>
-          <button type="button" class="btn btn-outline-primary" data-toggle="modal" (click)="openModalforAdd()" style="background-color:orange">+ Create ToDo</button>
+         
       </div>
        
       <div class="col-sm-10" style="background-color:bisque;"> 
         <div  style="background-color:rgb(181, 204, 136);">
-          <h2 style="margin: 18px">{{ headertodo }}</h2>
+          <h2 style="margin: 15px">{{ headertodo }}</h2>
         </div>
         
         <div style="background-color:orange;">
@@ -43,8 +46,9 @@
             <p style="color: green">Completed list</p>
         </div>
         <div *ngFor="let subtitle of deleted_subtitles">          
-          <input checked type="checkbox"(change)="undosubtitleTaskDone(subtitle._id,subtitle.to_do_headtitleid)" style="margin:7px">
-          <del>{{ subtitle.sub_title }}</del>
+          <input checked type="checkbox"(change)="undosubtitleTaskDone(subtitle._id,subtitle.to_do_headtitleid)" style="margin-right:7px">
+          <del>{{ subtitle.sub_title }}</del> 
+              <!-- {{ subtitle.updated_dt }} -->
           <button on-click="subtitle_permanent_delete(subtitle)"  style="margin:7px" type="button" class="btn btn-danger btn-sm">Delete</button>
         </div>
         

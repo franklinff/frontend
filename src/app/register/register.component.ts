@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
   
   form: FormGroup;
   submitted = false;
+  email_unique:String='';
 
   registerForm:FormGroup = this.formBuilder.group({
       email:new FormControl('',[Validators.email,Validators.required]),
@@ -37,10 +38,17 @@ export class RegisterComponent implements OnInit {
       console.log('Invalid form'); return; 
     }
     this._userService.register(JSON.stringify(this.registerForm.value)).subscribe(
-        data=> { 
-          console.log(data);
-          this._router.navigate(['/login'],{queryParams: { registered: 'true'}});
-        error=> console.error(error) ; 
+        data=> {
+                 
+          if(typeof data === 'object'){
+            console.log(data);
+            this._router.navigate(['/login'],{queryParams: { registered: 'true'}});
+          }
+          if(typeof data === 'string'){
+            console.log(data);
+            this.email_unique = 'User already registered with the above mail.';
+          }       
+         // error=> console.error(error) ; 
         }
     )
     console.log(JSON.stringify(this.registerForm.value));
