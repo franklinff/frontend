@@ -30,7 +30,7 @@
 
       <ul  *ngIf="user.isloggedin"  class="nav navbar-nav nav-item dropdown" >  
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
-                <app-userhome></app-userhome>
+                <app-userhome [work_completed]=user.work_completed></app-userhome>
             </a>           
             <div class="dropdown-menu">
                 <a class="dropdown-item" [routerLink]="['/editprofile']">Update profile</a>

@@ -24,7 +24,7 @@ export class EditProfileComponent implements OnInit {
       email:new FormControl(null,[Validators.email,Validators.required]),
       username:new FormControl(null,Validators.required),
       existingpassword: new FormControl(null,Validators.required),
-      newPassword:new FormControl(null,Validators.required) ,
+      newPassword:new FormControl(null) ,
       user_id:new FormControl(null,Validators.required) 
   })
 
@@ -43,7 +43,7 @@ export class EditProfileComponent implements OnInit {
     this.username = data.username;
     this.email = data.email;
     //this.password=data.password;
-    this.user_id= data._id;
+    this.user_id= localStorage.getItem('access_token');;
   }
 
   redirect_ontodos(){

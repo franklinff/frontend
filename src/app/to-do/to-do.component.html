@@ -11,9 +11,16 @@
       <div class="row" style="height:547px">
       <div class="col-sm-2" style="background-color:lightgoldenrodyellow;">
         <button type="button" class="btn btn-outline-primary" data-toggle="modal" (click)="openModalforAdd()" style="background-color:orange;margin-left: 35px;margin-top: 15px;margin-bottom: 10px">+ Create ToDo</button>
-            <ul *ngFor="let hero of heroes">         
+           <!-- <p>{{ work_completed }}</p> -->
+        
+           <ul *ngFor="let hero of heroes">         
               <li>
-              <a [routerLink]="" (click)="viewHead(hero._id)">{{ hero.listTitle }}</a>                 
+              <a [routerLink]="" (click)="viewHead(hero._id)">{{ hero.listTitle }}</a> 
+             
+             
+              &nbsp;
+             <app-status-todo [childMessage]=hero._id></app-status-todo>
+             
               <span style="float:right;">
               <a [routerLink]="" data-toggle="modal" (click)="showModal(hero)" style="color:olivedrab"><p><span class="glyphicon glyphicon-pencil">&#x270f;</span></p></a> 
               </span> 
@@ -30,6 +37,7 @@
         <div style="background-color:orange;">
             <form [formGroup]="subtitleForm">
             <input [(ngModel)]="headertodo_id" type="hidden" formControlName="headertodo_id" class="form-control" value="{{ headertodo_id }}">      
+           
             <input *ngIf="headertodo_id" [(ngModel)]="subtitle" type="text" (keyup.enter)="addSubtitle()" formControlName="subtitle" class="form-control"  [value]="subtitle" placeholder="+ Add subtitle for to-do">     
             </form>  
         </div>
@@ -72,7 +80,7 @@
               <form [formGroup]="profileForm">
               <div class="modal-body">     
               <input type="text" formControlName="title_list" value="" class="form-control title_list" placeholder="List Name" required>
-              <input [(ngModel)]="user_id" type="hidden" formControlName="user_id" class="form-control" value='{{ user_id }}'>  
+              <!-- <input [(ngModel)]="user_id" type="hidden" formControlName="user_id" class="form-control" value='{{ user_id }}'>   -->
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" on-click="onSubmit()">Save</button>  

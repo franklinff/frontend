@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-userhome',
@@ -11,30 +12,32 @@ import { Router } from '@angular/router'
 export class UserhomeComponent implements OnInit {
   
   username:String='';
+  @Input('work_completed') work_completed: String;
+  work:String='';
 
   ngOnInit() {
+
   }
 
   constructor(private _user:UserService, private _router:Router) {
-    this._user.user()
-    .subscribe(
+
+    // this.work = _user.work_completed;
+   
+    this._user.user().subscribe(
       data=>this.addName(data),
       error=>this._router.navigate(['/login'])
     )
   }
 
   addName(data){ 
-    console.log(data);   
+    //console.log(data);   
     this.username = data.username;
-    //this.email = data.email;
-    //this.user_id = data._id;
   }
 
   logout(){
-    this._user.logout()
-    .subscribe(
+    this._user.logout().subscribe(
       data=>{
-        console.log(data);
+        localStorage.clear();
         this._router.navigate(['/login'])
       },
       error=>console.error(error)
@@ -42,7 +45,7 @@ export class UserhomeComponent implements OnInit {
   }
 
   update_redirect(){
-    this._router.navigate(['/editprofile']);
+    this._router.navigate(['/editprofile']); 
   }
 
 }

@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   error={message:null};
   infoMessage = '';
+ 
 
   loginForm : FormGroup=new FormGroup({
     email:new FormControl(null,[Validators.email,Validators.required]),
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
 
       setTimeout(function() {
         this.infoMessage = false;
-        console.log(this.infoMessage);
+       // console.log(this.infoMessage);
         }.bind(this), 3000);
    }
 
@@ -49,14 +50,15 @@ export class LoginComponent implements OnInit {
     }
     //console.log(JSON.stringify(this.loginForm.value));
     this._user.login(JSON.stringify(this.loginForm.value)).subscribe(
-        data =>{ 
-          console.log(data);
+        (data:any) =>{ 
+         // console.log(data);
+          localStorage.setItem('access_token',data.jwttoken);
           this._user.isloggedin=data;
           this._router.navigate(['/lists']);
         },
         (error)=>{
           this.error.message = error.error.message;
-          console.log(error);
+        //  console.log(error);
         } 
     )
   }
