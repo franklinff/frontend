@@ -32,16 +32,14 @@ export class ToDoComponent implements OnInit {
   //todo_id='';
   head_todo_id='';
   infoMessage = '';
+  work_completed:any='';
 
   constructor(private _user:UserService,private _router:Router,private fb: FormBuilder,private route: ActivatedRoute) { }
 
-  loggedinuser(data){
-    this.user_id = data._id
-  }
 
   profileForm = this.fb.group({
     title_list: ['', Validators.required],
-    user_id:['']
+    user_id:localStorage.getItem('access_token')
   });
 
   editTodoTitleForm = this.fb.group({
@@ -52,6 +50,7 @@ export class ToDoComponent implements OnInit {
   subtitleForm = this.fb.group({
     subtitle: ['', Validators.required],
     headertodo_id:['',Validators.required],
+    user_id: localStorage.getItem('access_token')
   //  todo_id:['',Validators.required]
   });
 
@@ -72,7 +71,6 @@ export class ToDoComponent implements OnInit {
     });
     setTimeout(function() {
       this.infoMessage = false;
-      console.log(this.infoMessage);
     }.bind(this), 4200);
 
 
@@ -86,12 +84,17 @@ export class ToDoComponent implements OnInit {
 
    }
 
+   loggedinuser(data){
+    this.user_id = data._id
+  }
+
   onSubmit(){
-    console.warn(this.profileForm.value);
+  //  console.warn(this.profileForm.value);
     if(!this.profileForm.valid){
       console.log('Invalid form'); return; 
     }
-     
+
+  //  console.log(this.profileForm.value);  
     this._user.title_of_toDo(JSON.stringify(this.profileForm.value)).subscribe(
      data=> {  
         this.title_list = ''; 
@@ -102,8 +105,9 @@ export class ToDoComponent implements OnInit {
   }
 
   retriveToDoList(){   
+
     this.deleted_subtitles = [];
-    this._user.getToDoList(this.user_id).subscribe(data => {
+    this._user.getToDoList(localStorage.getItem('access_token')).subscribe(data => {
       this.listToDoFrontend(data);
     });
   }
@@ -115,15 +119,16 @@ export class ToDoComponent implements OnInit {
   deleteTOdo(id){
     this._user.TOdodelete(id).subscribe(
        data=> {  
-          console.log(data);
+         // console.log(data);
           error=> console.error(error); 
         }
       ) 
   }
 
-  viewHead(id){
+  viewHead(id){  
   //  console.log('I am viewHead');
     this._user.viewIndividualHead(id).subscribe( data=> {
+          console.log(data);
           this.getSubtitles(id);  
           this.invidualTododetails(data);
           this.deletd_subtitles(id);
@@ -139,8 +144,8 @@ export class ToDoComponent implements OnInit {
   }
 
   addSubtitle(){
-    console.log(JSON.stringify(this.subtitleForm.value.headertodo_id));
-    console.warn(this.subtitleForm.value);
+    // console.log(JSON.stringify(this.subtitleForm.value.headertodo_id));
+    // console.log(this.subtitleForm.value);
     if(!this.subtitleForm.valid){
       console.log('Invalid form');
       this.subtitle = null;
@@ -148,9 +153,14 @@ export class ToDoComponent implements OnInit {
     }else{
       this.subtitle = null; 
       this._user.insertSubtitle(JSON.stringify(this.subtitleForm.value)).subscribe(   
-        data=> { 
+        data=> {
+          
+          console.log('-------------');console.log(data);
+          this.work_completed = data; 
+        this._user.work_completed = data; 
+
              this.getSubtitles(this.subtitleForm.value.headertodo_id); 
-             this.deletd_subtitles(this.subtitleForm.value.headertodo_id); 
+          this.deletd_subtitles(this.subtitleForm.value.headertodo_id); 
             // console.log('addSubtitle() in component ');  
             error=> console.error(error); 
           }
@@ -169,15 +179,15 @@ export class ToDoComponent implements OnInit {
   listSubtitles(data){
     // console.log('listSUbtitles'); 
     // console.log(data);
-    this.listofsubtitles = data; 
+     this.listofsubtitles = data; 
   }
 
   deletd_subtitles(user_id){
-    console.log('Ia m in deletd_subtitles');
+  //  console.log('Ia m in deletd_subtitles');
     this._user.subtitles_deletd(user_id).subscribe( data=> { 
       
-      console.log('DeletdSubtitles'); 
-      console.log(data);
+      // console.log('DeletdSubtitles'); 
+      // console.log(data);
 
       this.listDeletdSubtitles(data);      
       error=> console.error(error); 
@@ -186,35 +196,53 @@ export class ToDoComponent implements OnInit {
   }
 
   listDeletdSubtitles(data){
-    console.log(data);
+   // console.log(data);
     this.deleted_subtitles = data; 
   }
 
-  subtitleTaskDone(subtitle_id,to_do_headtitleid){
-    this._user.taskDoneSubtitle(subtitle_id).subscribe( data=> {  
-     // console.log('I am in subtitleTaskDone'); 
-     // console.log(data); 
-      this.getSubtitles(to_do_headtitleid);
+  subtitleTaskDone(subtitle_id,to_do_headtitleid){ 
+
+    this._user.taskDoneSubtitle( JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=> {  
+      // console.log('I am in subtitleTaskDone'); 
+      
+      
+      console.log(to_do_headtitleid);
+
+        this.work_completed = data; 
+        this._user.work_completed = data; 
+
+       this.getSubtitles(to_do_headtitleid);
       this.deletd_subtitles(to_do_headtitleid);
-      error=> console.error(error); 
-    }
+       error=>{console.error(error); } 
+     }
+    // this._user.taskDoneSubtitle(subtitle_id).subscribe( data=> {  
+    //  // console.log('I am in subtitleTaskDone'); 
+    //  // console.log(data); 
+    //   this.getSubtitles(to_do_headtitleid);
+    //   this.deletd_subtitles(to_do_headtitleid);
+    //   error=> console.error(error); 
+    // }
   )
   }
 
   undosubtitleTaskDone(subtitle_id,to_do_headtitleid){
     //  console.log(subtitle_id); 
     //  console.log(to_do_headtitleid);
-     this._user.uncheckSubtitle(subtitle_id).subscribe( data=>{
-      console.log(data); 
+     this._user.uncheckSubtitle(JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=>{
+    
+  //    console.log(data); 
+      this.work_completed = data;
+      this._user.work_completed = data;  
+
       this.getSubtitles(to_do_headtitleid);
-      this.deletd_subtitles(to_do_headtitleid);
+       this.deletd_subtitles(to_do_headtitleid);
      })
   }
 
   showModal(data){
     $("#editListHead").modal('show');
     this.headertodo = data.listTitle;
-    console.log(data);
+  //  console.log(data);
 
     this.editTodoTitleForm = this.fb.group({
       title_list: [data.listTitle, Validators.required],
@@ -224,19 +252,21 @@ export class ToDoComponent implements OnInit {
 
 
   submitEditHead(){
-    console.log(this.editTodoTitleForm.value);
+  //  console.log(this.editTodoTitleForm.value);
     this._user.editTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
-    console.log(data);
+  //  console.log(data);
     this.retriveToDoList();
     this.viewHead(this.editTodoTitleForm.value._id);
      })    
   }
 
   deleteHead(){
-    console.log(this.editTodoTitleForm.value);
+   // console.log(this.editTodoTitleForm.value);
     this._user.deleteTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
       this.retriveToDoList();
+      this.getSubtitles(this.editSubtitleForm.value.head_todo_id);
       this.headertodo = '';
+      this.headertodo_id = '';
     })
   }
 
@@ -246,27 +276,30 @@ export class ToDoComponent implements OnInit {
   }
 
 
-
   subtitle_permanent_delete(data){
     this._user.subtitlePermanentDelete(JSON.stringify(data)).subscribe( result=>{
+
+
+console.log('-------------------');console.log(result);
+
        this.viewHead(data.to_do_headtitleid);
      });
   }
 
   openModalforEditSubtitle(data){
-    console.log(data);
+  //  console.log(data);
     $("#editSubtitle").modal('show');
     this.subtitle_edit = data.sub_title;
     this.subtitle_id =data._id;
     this.head_todo_id =data.to_do_headtitleid;
-    console.log(data);
+  //  console.log(data);
   }
 
 
   editSubtitleFormSubmit(){
-    console.log(this.editSubtitleForm.value);
+  //  console.log(this.editSubtitleForm.value);
     this._user.editSubtitle(JSON.stringify(this.editSubtitleForm.value)).subscribe( result=>{
-      console.log(result);
+   //   console.log(result);
       this.getSubtitles(this.editSubtitleForm.value.head_todo_id);
     });
   }
