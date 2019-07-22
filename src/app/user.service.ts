@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders,HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +10,11 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   isloggedin:any=false;
+  jwttoken = '';
+  work_completed:any='';
+
   
-  constructor(private _http:HttpClient) { }
+  constructor(private _http:HttpClient) {   }
 
   register(body:any){
     return this._http.post('http://127.0.0.1:3000/users/register',body,{
@@ -50,11 +55,14 @@ export class UserService {
     });
   }
 
-  getToDoList(body:any):Observable<any>{  
-    try {
-     
-     let params1 = new HttpParams().set('userid',body);
-     return this._http.get('http://127.0.0.1:3000/users/retriveToDolist/',{params:params1})
+
+  //getToDoList(body:any):Observable<any>{  
+  getToDoList(body:any){  
+    try {  
+
+      let user = new HttpHeaders().append('userid',body);
+      return this._http.get('http://127.0.0.1:3000/users/retriveToDolist/',{headers:user})
+   
     }catch(e) {
       console.log(e);
     }
@@ -69,14 +77,14 @@ export class UserService {
   viewIndividualHead(body:any):Observable<any>{
     try { 
       let params1 = new HttpParams().set('title_head_id',body);
-      return this._http.get('http://127.0.0.1:3000/users/viewHeadIndividual/',{params:params1})
-     }catch(e) {
+      return this._http.get('http://127.0.0.1:3000/users/viewHeadIndividual/',{params:params1})   
+    }catch(e) {
        console.log(e);
      }
   }
 
 
-  insertSubtitle(body:any){
+  insertSubtitle(body:any){ 
     return this._http.post('http://127.0.0.1:3000/users/addSubTitle',body,{
       observe:'body',
       headers:new HttpHeaders().append('Content-Type','application/json')
@@ -95,24 +103,29 @@ export class UserService {
      }
   }
 
-  taskDoneSubtitle(id){
-    return this._http.put(`http://127.0.0.1:3000/users/subtitleChecked`, {id},{
-      observe:'body',
-      headers:new HttpHeaders().append('Content-Type','application/json')
-    }
-    );
-  }
-
   subtitles_deletd(body:any):Observable<any>{
     try { 
       // console.log('listSubtitles service');
-       console.log(body);
+    //   console.log(body);
       let header_title_id = new HttpParams().set('title_head_id',body);
       return this._http.get('http://127.0.0.1:3000/users/deletdSubtitles/',{params:header_title_id})
      }catch(e) {
        console.log(e);
      }
   }
+
+
+  taskDoneSubtitle(body:any){
+  // taskDoneSubtitle(id){
+      // return this._http.put(`http://127.0.0.1:3000/users/subtitleChecked`, {id,id},{
+      return this._http.post(`http://127.0.0.1:3000/users/subtitleChecked`, body,{
+      observe:'body',
+      headers:new HttpHeaders().append('Content-Type','application/json')
+    }
+    );
+  }
+
+
 
   profileUpdate(body:any){
    // console.log(body);
@@ -122,8 +135,11 @@ export class UserService {
     });
   }
 
-  uncheckSubtitle(id){
-    return this._http.put(`http://127.0.0.1:3000/users/uncheckedSubtitle`, {id},{
+  // uncheckSubtitle(id){
+  //   return this._http.put(`http://127.0.0.1:3000/users/uncheckedSubtitle`, {id},{
+  uncheckSubtitle(body:any){
+    // console.log(body);    
+      return this._http.post(`http://127.0.0.1:3000/users/uncheckedSubtitle`, body,{
       observe:'body',
       headers:new HttpHeaders().append('Content-Type','application/json')
     }
