@@ -15,18 +15,16 @@ export class UserhomeComponent implements OnInit {
   @Input('work_completed') work_completed: String;
   work:String='';
 
-  ngOnInit() {
-
-  }
-
   constructor(private _user:UserService, private _router:Router) {
-
     // this.work = _user.work_completed;
-   
     this._user.user().subscribe(
       data=>this.addName(data),
       error=>this._router.navigate(['/login'])
     )
+  }
+
+  ngOnInit() {
+
   }
 
   addName(data){ 
