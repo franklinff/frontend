@@ -33,6 +33,7 @@ export class ToDoComponent implements OnInit {
   head_todo_id='';
   infoMessage = '';
   work_completed:any='';
+
   
 
   constructor(private _user:UserService,private _router:Router,private fb: FormBuilder,private route: ActivatedRoute) { }
@@ -72,7 +73,6 @@ export class ToDoComponent implements OnInit {
     setTimeout(function() {
       this.infoMessage = false;
     }.bind(this), 4200);
-
     this.retriveToDoList();
 
     // const subscription = this._user.user().subscribe(data => {
@@ -98,6 +98,9 @@ export class ToDoComponent implements OnInit {
   //  console.log(this.profileForm.value);  
   this._user.title_of_toDo(JSON.stringify(this.profileForm.value)).subscribe(
      data=> {  
+        this.work_completed = data; 
+        this._user.work_completed = data;   
+        
         this.title_list = ''; 
         this.retriveToDoList();  
         error=> console.error(error); 
@@ -107,8 +110,13 @@ export class ToDoComponent implements OnInit {
 
   retriveToDoList(){   
     this.deleted_subtitles = [];
-    this._user.getToDoList(localStorage.getItem('access_token')).subscribe(data => { 
-    this.heroes = data;
+    this._user.getToDoList(localStorage.getItem('access_token')).subscribe((data:any)=> { 
+
+      //  console.log(data.listData);
+       this.heroes = data.listData;
+       this.work_completed = data.work_done; 
+       this._user.work_completed = data.work_done; 
+
     });
   }
 
@@ -268,7 +276,10 @@ export class ToDoComponent implements OnInit {
   deleteHead(){ 
     console.log(this.editTodoTitleForm.value);
     this._user.deleteTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
-      
+     
+      this.work_completed = data;
+      this._user.work_completed = data;  
+
     //  this.getSubtitles(this.editSubtitleForm.value.head_todo_id);
 
     //  this.viewHead(this.editTodoTitleForm.value._id);
