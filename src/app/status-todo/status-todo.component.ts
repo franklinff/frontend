@@ -8,27 +8,33 @@ import { UserService } from '../user.service';
 })
 export class StatusTodoComponent implements OnInit {
 
-  @Input() childMessage: string;
   status:String='';
   task_done:any='';
-  @Input() private uploadSuccess: EventEmitter<any>;
+
+  @Input() childMessage: string;
+  @Input() private uploadSuccessDone: EventEmitter<any>;
 
 
   constructor(private _user:UserService) { }
 
   ngOnInit() {
-    this.getSubtitles(this.childMessage);
-    this.uploadSuccess.subscribe(()=>{
+   
+    this.uploadSuccessDone.subscribe(()=>{
         this.getSubtitles(this.childMessage);
     }) 
+    this.getSubtitles(this.childMessage);
   }
 
-  getSubtitles(childMessage){ 
+  getSubtitles(childMessage){
       this._user.listSubtitles(JSON.stringify({head_id:this.childMessage,token: localStorage.getItem('access_token')})).subscribe( data=> {
-      if(data.listofsubtitles.length > 0){
-        this.task_done = ((data.headertodo.length/data.listofsubtitles.length)*100).toFixed(2);
 
-      }
+        if(data.listofsubtitles.length > 0){
+        this.task_done = ((data.headertodo.length/data.listofsubtitles.length)*100).toFixed(2);
+        }
+        if(data.listofsubtitles.length == 0 && data.headertodo.length == 0 ){
+          this.task_done = '';
+        }
+  
       }
     )
   }
