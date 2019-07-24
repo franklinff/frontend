@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output,EventEmitter, Input} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
@@ -33,11 +33,14 @@ export class ToDoComponent implements OnInit {
   head_todo_id='';
   infoMessage = '';
   work_completed:any='';
+  @Output() uploadSuccess = new EventEmitter();
+  // @Output() uploadSuccess : EventEmitter<number> = new EventEmitter<number>();
 
-  
 
-  constructor(private _user:UserService,private _router:Router,private fb: FormBuilder,private route: ActivatedRoute) { }
 
+  constructor(private _user:UserService,private _router:Router,private fb: FormBuilder,private route: ActivatedRoute) {
+  //  this.uploadSuccess.emit(Math.random());
+   }
 
   profileForm = this.fb.group({
     title_list: ['', Validators.required],
@@ -65,6 +68,7 @@ export class ToDoComponent implements OnInit {
 
   ngOnInit() {
 
+    this.uploadSuccess.emit(Math.random());
     this.route.queryParams.subscribe(params => {
       if(params.profile_updated !== undefined && params.profile_updated === 'true') {
           this.infoMessage = 'User profile updated!';
@@ -74,15 +78,12 @@ export class ToDoComponent implements OnInit {
       this.infoMessage = false;
     }.bind(this), 4200);
     this.retriveToDoList();
-
     // const subscription = this._user.user().subscribe(data => {
-    //   this.loggedinuser(data);
-      
+    //   this.loggedinuser(data);    
     //   subscription.unsubscribe();
     // },
     //   error =>this._router.navigate(['/login'])
     // );
-
    }
 
   loggedinuser(data){
@@ -94,7 +95,6 @@ export class ToDoComponent implements OnInit {
     if(!this.profileForm.valid){
       console.log('Invalid form'); return; 
     }
-
   //  console.log(this.profileForm.value);  
   this._user.title_of_toDo(JSON.stringify(this.profileForm.value)).subscribe(
      data=> {  
@@ -111,12 +111,10 @@ export class ToDoComponent implements OnInit {
   retriveToDoList(){   
     this.deleted_subtitles = [];
     this._user.getToDoList(localStorage.getItem('access_token')).subscribe((data:any)=> { 
-
-      //  console.log(data.listData);
+      // console.log(data.work_done);
        this.heroes = data.listData;
        this.work_completed = data.work_done; 
        this._user.work_completed = data.work_done; 
-
     });
   }
 
@@ -131,36 +129,21 @@ export class ToDoComponent implements OnInit {
 
   viewHead(id){  
       this._user.viewIndividualHead(JSON.stringify({subtitle_id: id, user_id: localStorage.getItem('access_token')})).subscribe((data:any)=> {       
-        console.log(data);
+       // console.log(data);       
           this.headertodo = data.headertodo[0].listTitle;
           this.headertodo_id = data.headertodo[0]._id;
           this.listofsubtitles = data.listofsubtitles;
           error=> console.error(error); 
           }
-        ) 
+        )  
+      //  this.getSubtitles(id);
     }
 
-  // viewHead(id){  
-  // //  console.log('I am viewHead');
-  //   this._user.viewIndividualHead(id).subscribe( data=> {
-  //         console.log(data);
-  //         this.getSubtitles(id);  
-  //         this.invidualTododetails(data);
-  //         this.deletd_subtitles(id);
-  //         error=> console.error(error); 
-  //       }
-  //     ) 
-  // }
 
-  // invidualTododetails(data){
-  //  console.log(data);
-  //   this.headertodo = data[0].listTitle;
-  //   this.headertodo_id = data[0]._id;
-  // }
 
   addSubtitle(){
     // console.log(JSON.stringify(this.subtitleForm.value.headertodo_id));
-     console.log(this.subtitleForm.value);
+     console.log(this.subtitleForm.value.headertodo_id);
     if(!this.subtitleForm.valid){
       console.log('Invalid form');
       this.subtitle = null;
@@ -169,22 +152,148 @@ export class ToDoComponent implements OnInit {
       this.subtitle = null; 
       this._user.insertSubtitle(JSON.stringify(this.subtitleForm.value)).subscribe(   
         data=> {
-          
-          console.log(data);
-          console.log(this.subtitleForm.value.headertodo_id);
           this.work_completed = data; 
           this._user.work_completed = data; 
-          this.viewHead(this.subtitleForm.value.headertodo_id);
+         // this.viewHead(this.subtitleForm.value.headertodo_id);
+
+          this.subtitleTaskDone('',this.subtitleForm.value.headertodo_id);
           //    this.getSubtitles(this.subtitleForm.value.headertodo_id); 
           //    this.deletd_subtitles(this.subtitleForm.value.headertodo_id); 
           //    console.log('addSubtitle() in component ');  
+          //    console.log(data);
+          //    console.log(this.subtitleForm.value.headertodo_id);
             error=> console.error(error); 
           }
         ) 
     }
   }
 
-  // getSubtitles(id){ //console.log(id); 
+  subtitleTaskDone(subtitle_id,to_do_headtitleid){ 
+    this._user.taskDoneSubtitle( JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=> {  
+      
+      
+      this.work_completed = data; 
+      this._user.work_completed = data; 
+      this.viewHead(to_do_headtitleid);
+      error=>{console.error(error); } 
+     }
+  )
+  this.uploadSuccess.emit(Math.random());
+  
+    //      console.log(data);
+    // this._user.taskDoneSubtitle(subtitle_id).subscribe( data=> {  
+    //  // console.log('I am in subtitleTaskDone'); 
+    //  // console.log(data); 
+    //   this.getSubtitles(to_do_headtitleid);
+    //   this.deletd_subtitles(to_do_headtitleid);
+    //   error=> console.error(error); 
+    // }  
+  }
+
+  undosubtitleTaskDone(subtitle_id,to_do_headtitleid){
+
+     this._user.uncheckSubtitle(JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=>{    
+      //console.log(data); 
+      this.work_completed = data;
+      this._user.work_completed = data;  
+      this.viewHead(to_do_headtitleid);
+      // this.getSubtitles(to_do_headtitleid);
+      //  this.deletd_subtitles(to_do_headtitleid);
+      this.uploadSuccess.emit(Math.random());
+     })
+    
+  }
+
+  showModal(data){  
+    $("#editListHead").modal('show');
+    this.headertodo = data.listTitle;
+
+    this.editTodoTitleForm = this.fb.group({
+      title_list: [data.listTitle, Validators.required],
+      _id:[data._id],
+      user_id:localStorage.getItem('access_token')
+      }); 
+  }
+
+
+  submitEditHead(){ 
+  //  console.log(this.editTodoTitleForm.value);
+    this._user.editTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
+  //  console.log(data);
+    this.retriveToDoList();
+    this.viewHead(this.editTodoTitleForm.value._id);
+     })    
+  }
+
+  deleteHead(){ 
+   // console.log(this.editTodoTitleForm.value);
+    this._user.deleteTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
+      this.work_completed = data;
+      this._user.work_completed = data;  
+    //  this.getSubtitles(this.editSubtitleForm.value.head_todo_id);
+    //  this.viewHead(this.editTodoTitleForm.value._id);
+      this.retriveToDoList();
+      this.headertodo = '';
+      this.headertodo_id = '';
+      this.listofsubtitles = [];
+    })
+  }
+
+  openModalforAdd(){
+    $("#myModal").modal('show');
+    $(".title_list").val('');
+  }
+
+
+  subtitle_permanent_delete(data){
+    this._user.subtitlePermanentDelete(JSON.stringify({subtitle_id: data._id, user_id: localStorage.getItem('access_token')})).subscribe( result=>{
+         this.work_completed = result; 
+         this._user.work_completed = result;
+         this.viewHead(data.to_do_headtitleid);
+     });
+     this.uploadSuccess.emit(Math.random());   
+  }
+
+  openModalforEditSubtitle(data){
+  //  console.log(data);
+    $("#editSubtitle").modal('show');
+    this.subtitle_edit = data.sub_title;
+    this.subtitle_id =data._id;
+    this.head_todo_id =data.to_do_headtitleid;
+  }
+
+
+  editSubtitleFormSubmit(){
+    //console.log(this.editSubtitleForm.value);
+    this._user.editSubtitle(JSON.stringify(this.editSubtitleForm.value)).subscribe( result=>{
+     //   console.log(result);
+     //   this.getSubtitles(this.editSubtitleForm.value.head_todo_id);
+      this.viewHead(this.editSubtitleForm.value.head_todo_id);
+    });
+  }
+
+
+  // updateTaskStatus(data){
+  //   console.log(data);
+  // }
+  // getSubtitles(childMessage){ 
+  //   //this._user.listSubtitles(this.childMessage).subscribe( data=> {
+
+  //     this._user.listSubtitles(JSON.stringify({head_id:childMessage,token: localStorage.getItem('access_token')})).subscribe( data=> {
+
+
+  //     if(data.listofsubtitles.length > 0){
+  //       this.task_done[childMessage] = ((data.headertodo.length/data.listofsubtitles.length)*100).toFixed(2);
+  //       //this.status = 'Completed';
+  //       //data.headertodo.length ==  data.listofsubtitles.length  &&      
+  //       //console.log(childMessage);
+  //       //console.log('----------------------');
+  //      }
+  //     }
+  //   )
+  // }
+
+    // getSubtitles(id){ //console.log(id); 
   //   this._user.listSubtitles(id).subscribe( data=> {    
   //       //this.listSubtitles(data);
         
@@ -218,110 +327,24 @@ export class ToDoComponent implements OnInit {
   //   this.deleted_subtitles = data; 
   // }
 
-  subtitleTaskDone(subtitle_id,to_do_headtitleid){ 
+    // viewHead(id){  
+  // //  console.log('I am viewHead');
+  //   this._user.viewIndividualHead(id).subscribe( data=> {
+  //         console.log(data);
+  //         this.getSubtitles(id);  
+  //         this.invidualTododetails(data);
+  //         this.deletd_subtitles(id);
+  //         error=> console.error(error); 
+  //       }
+  //     ) 
+  // }
 
-    this._user.taskDoneSubtitle( JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=> {  
-      console.log(data);
-     
-      this.work_completed = data; 
-      this._user.work_completed = data; 
-      this.viewHead(to_do_headtitleid);
-       error=>{console.error(error); } 
-     }
-    // this._user.taskDoneSubtitle(subtitle_id).subscribe( data=> {  
-    //  // console.log('I am in subtitleTaskDone'); 
-    //  // console.log(data); 
-    //   this.getSubtitles(to_do_headtitleid);
-    //   this.deletd_subtitles(to_do_headtitleid);
-    //   error=> console.error(error); 
-    // }
-  )
-  }
-
-  undosubtitleTaskDone(subtitle_id,to_do_headtitleid){
-    //  console.log(subtitle_id); 
-    //  console.log(to_do_headtitleid);
-     this._user.uncheckSubtitle(JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=>{
-    
-      //console.log(data); 
-      this.work_completed = data;
-      this._user.work_completed = data;  
-      this.viewHead(to_do_headtitleid);
-      // this.getSubtitles(to_do_headtitleid);
-      //  this.deletd_subtitles(to_do_headtitleid);
-     })
-  }
-
-  showModal(data){  
-    $("#editListHead").modal('show');
-    this.headertodo = data.listTitle;
-
-    this.editTodoTitleForm = this.fb.group({
-      title_list: [data.listTitle, Validators.required],
-      _id:[data._id],
-      user_id:localStorage.getItem('access_token')
-      }); 
-  }
-
-
-  submitEditHead(){ 
-  //  console.log(this.editTodoTitleForm.value);
-    this._user.editTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
+  // invidualTododetails(data){
   //  console.log(data);
-    this.retriveToDoList();
-    this.viewHead(this.editTodoTitleForm.value._id);
-     })    
-  }
+  //   this.headertodo = data[0].listTitle;
+  //   this.headertodo_id = data[0]._id;
+  // }
 
-  deleteHead(){ 
-    console.log(this.editTodoTitleForm.value);
-    this._user.deleteTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
-     
-      this.work_completed = data;
-      this._user.work_completed = data;  
-
-    //  this.getSubtitles(this.editSubtitleForm.value.head_todo_id);
-
-    //  this.viewHead(this.editTodoTitleForm.value._id);
-      this.retriveToDoList();
-      this.headertodo = '';
-      this.headertodo_id = '';
-      this.listofsubtitles = [];
-    })
-  }
-
-  openModalforAdd(){
-    $("#myModal").modal('show');
-    $(".title_list").val('');
-  }
-
-
-  subtitle_permanent_delete(data){
-    this._user.subtitlePermanentDelete(JSON.stringify({subtitle_id: data._id, user_id: localStorage.getItem('access_token')})).subscribe( result=>{
-         this.work_completed = result; 
-         this._user.work_completed = result;
-        this.viewHead(data.to_do_headtitleid);
-     });
-  }
-
-  openModalforEditSubtitle(data){
-  //  console.log(data);
-    $("#editSubtitle").modal('show');
-    this.subtitle_edit = data.sub_title;
-    this.subtitle_id =data._id;
-    this.head_todo_id =data.to_do_headtitleid;
-  //  console.log(data);
-  }
-
-
-  editSubtitleFormSubmit(){
-    console.log(this.editSubtitleForm.value);
-    this._user.editSubtitle(JSON.stringify(this.editSubtitleForm.value)).subscribe( result=>{
-     //   console.log(result);
-     //   this.getSubtitles(this.editSubtitleForm.value.head_todo_id);
-      this.viewHead(this.editSubtitleForm.value.head_todo_id);
-    });
-  }
 
 }
 
