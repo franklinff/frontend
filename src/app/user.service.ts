@@ -12,7 +12,6 @@ export class UserService {
   isloggedin:any=false;
   jwttoken = '';
   work_completed:any='';
-
   
   constructor(private _http:HttpClient) {   }
 
@@ -55,14 +54,11 @@ export class UserService {
     });
   }
 
-
   //getToDoList(body:any):Observable<any>{  
   getToDoList(body:any){  
     try {  
-
       let user = new HttpHeaders().append('userid',body);
-      return this._http.get('http://127.0.0.1:3000/users/retriveToDolist/',{headers:user})
-   
+      return this._http.get('http://127.0.0.1:3000/users/retriveToDolist/',{headers:user})   
     }catch(e) {
       console.log(e);
     }
@@ -73,16 +69,14 @@ export class UserService {
     return this._http.delete('http://127.0.0.1:3000/users/deleteToDo',id);
   }
 
-
-  viewIndividualHead(body:any):Observable<any>{
-    try { 
-      let params1 = new HttpParams().set('title_head_id',body);
-      return this._http.get('http://127.0.0.1:3000/users/viewHeadIndividual/',{params:params1})   
+  viewIndividualHead(body:any){
+    try {  
+      let user = new HttpHeaders().append('title_head_id',body);
+      return this._http.get('http://127.0.0.1:3000/users/viewIndividual/',{headers:user})   
     }catch(e) {
        console.log(e);
      }
   }
-
 
   insertSubtitle(body:any){ 
     return this._http.post('http://127.0.0.1:3000/users/addSubTitle',body,{
@@ -91,13 +85,10 @@ export class UserService {
     });
   }
 
-
   listSubtitles(body:any):Observable<any>{
     try { 
-      // console.log('listSubtitles service');
-      // console.log(body);
-      let header_title_id = new HttpParams().set('title_head_id',body);
-      return this._http.get('http://127.0.0.1:3000/users/listSubtitles/',{params:header_title_id})
+      let user = new HttpHeaders().append('userid',body);
+      return this._http.get('http://127.0.0.1:3000/users/listSubtitles/',{headers:user})
      }catch(e) {
        console.log(e);
      }
@@ -105,15 +96,12 @@ export class UserService {
 
   subtitles_deletd(body:any):Observable<any>{
     try { 
-      // console.log('listSubtitles service');
-    //   console.log(body);
       let header_title_id = new HttpParams().set('title_head_id',body);
       return this._http.get('http://127.0.0.1:3000/users/deletdSubtitles/',{params:header_title_id})
      }catch(e) {
        console.log(e);
      }
   }
-
 
   taskDoneSubtitle(body:any){
   // taskDoneSubtitle(id){
@@ -124,8 +112,6 @@ export class UserService {
     }
     );
   }
-
-
 
   profileUpdate(body:any){
    // console.log(body);
@@ -153,11 +139,18 @@ export class UserService {
     });
   }
 
-  deleteTitle(body:any){
+  deleteTitle(body:any){ 
     return this._http.post('http://127.0.0.1:3000/users/deleteTitletodo',body,{
-      observe:'body',
+      //observe:'body',
       headers:new HttpHeaders().append('Content-Type','application/json')
     });
+    // var t = localStorage.getItem('access_token');
+    // var headers_object = new HttpHeaders().set("Authorization", "Bearer " + t);
+    // const httpOptions = {
+    //       headers: headers_object
+    //     };
+
+    // return this._http.post('http://127.0.0.1:3000/users/deleteTitletodo', body, httpOptions);
   }
 
   subtitlePermanentDelete(body:any) {
@@ -175,8 +168,22 @@ export class UserService {
     });
   }
 
+  // listSubtitles(body:any):Observable<any>{
+  //   try { 
+  //     let header_title_id = new HttpParams().set('title_head_id',body);
+  //     return this._http.get('http://127.0.0.1:3000/users/listSubtitles/',{params:header_title_id})
+  //    }catch(e) {
+  //      console.log(e);
+  //    }
+  // }
 
-
-  
+  // viewIndividualHead(body:any):Observable<any>{
+  //   try { 
+  //     let params1 = new HttpParams().set('title_head_id',body);
+  //     return this._http.get('http://127.0.0.1:3000/users/viewHeadIndividual/',{params:params1})   
+  //   }catch(e) {
+  //      console.log(e);
+  //    }
+  // }
 
 }
