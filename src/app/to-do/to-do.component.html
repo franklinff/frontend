@@ -16,11 +16,10 @@
            <ul *ngFor="let hero of heroes">         
               <li>
               <a [routerLink]="" (click)="viewHead(hero._id)">{{ hero.listTitle }}</a> 
-             
-             
-              &nbsp;
-             <app-status-todo [childMessage]=hero._id></app-status-todo>
-             
+               &nbsp;
+               <app-status-todo [childMessage]=hero._id [uploadSuccess]="uploadSuccess"></app-status-todo>
+              
+           
               <span style="float:right;">
               <a [routerLink]="" data-toggle="modal" (click)="showModal(hero)" style="color:olivedrab"><p><span class="glyphicon glyphicon-pencil">&#x270f;</span></p></a> 
               </span> 
