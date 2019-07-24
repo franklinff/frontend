@@ -14,41 +14,34 @@ export class AppComponent {
   isloggedin:any=false;
   username:String='';
 
-
   constructor (private user:UserService,private _router:Router){ 
 
-    const subscription = this.user.user().subscribe(data => {
-      this.user.isloggedin=data;
+  const subscription = this.user.user().subscribe(data => {       
+    this.user.isloggedin=data;
       this.addName(data)
       this._router.navigate(['/lists'])
       subscription.unsubscribe();
     },
       error =>this._router.navigate(['/login'])
     );
-   }
+  }
 
-
-   addName(data){ 
-    console.log(data);   
-    this.username = data.username;
+  addName(data){ 
+    this.username = data.username;   
   }
 
   ngOnInit() { }
 
- logout(){ 
-  localStorage.clear();
-  sessionStorage.clear();
-  this.user.logout().subscribe(data=>{
-        console.log(data);
-        this.user.isloggedin=false;   
-        this._router.navigate(['/login'])      
-      },   
-      error=>console.error(error)
-    ) 
+  logout(){ 
+    localStorage.clear();
+    sessionStorage.clear();
+    this.user.logout().subscribe(data=>{
+          console.log(data);
+          this.user.isloggedin=false;   
+          this._router.navigate(['/login'])      
+        },   
+        error=>console.error(error)
+      ) 
  }
-
-
-
-
 
 }

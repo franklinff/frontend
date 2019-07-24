@@ -13,6 +13,7 @@ import { ToDoComponent } from './to-do/to-do.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { StatusTodoComponent } from './status-todo/status-todo.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap'
     RegisterComponent,
     UserhomeComponent,
     ToDoComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    StatusTodoComponent
   ],
   imports: [
     BrowserModule,
