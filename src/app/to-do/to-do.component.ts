@@ -67,6 +67,7 @@ export class ToDoComponent implements OnInit {
       this.route.queryParams.subscribe(params => {
         if(params.profile_updated !== undefined && params.profile_updated === 'true') {
             this.infoMessage = 'User profile updated!';
+            this._router.navigate(['/lists']);
         }
       });
       setTimeout(function() {
