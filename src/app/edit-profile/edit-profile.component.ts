@@ -50,16 +50,16 @@ export class EditProfileComponent implements OnInit {
 
   updated_profile_data(){
     this.submitted = true;
-    //console.warn(this.updateprofileForm.value);
+   // console.warn(this.updateprofileForm.value);
     if(!this.updateprofileForm.valid){   
       console.log('Invalid form'); return; 
     }
 
     this._user.profileUpdate(JSON.stringify(this.updateprofileForm.value))
     .subscribe(
-        data=> {
-          console.log(data);
+        (data:any)=> {
           if(data == true){
+            this._user.username = this.updateprofileForm.value.username;  
             this._router.navigate(['/lists'],{queryParams: { profile_updated: 'true'}});
           }else{
             this.wrong_pwd = true;

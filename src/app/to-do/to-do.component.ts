@@ -160,7 +160,6 @@ export class ToDoComponent implements OnInit {
 
      this._user.uncheckSubtitle(JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=>{    
       //console.log(data); 
-     // this.work_completed = data;
       this._user.work_completed = data;  
       this.viewHead(to_do_headtitleid);
       this.uploadSuccess.emit();

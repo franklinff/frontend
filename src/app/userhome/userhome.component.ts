@@ -10,24 +10,27 @@ import { Router } from '@angular/router';
 })
 export class UserhomeComponent implements OnInit {
   
-  username:String='';
   work:String='';
   @Input('work_completed') work_completed: String;
+  @Input('username') username: String;
 
   constructor(private _user:UserService, private _router:Router) {
     // this.work = _user.work_completed;
     this._user.logged_in_user(localStorage.getItem('access_token')).subscribe(
-      data=>this.addName(data),
+      (data:any)=>{
+        this.username = data.username;
+      },    
+    //  this.addName(data),
       error=>this._router.navigate(['/login'])
     )
   }
 
   ngOnInit() { }
 
-  addName(data){ 
-    //console.log(data);   
-    this.username = data.username;
-  }
+  // addName(data){ 
+  //   //console.log(data);   
+  //   this.username = data.username;
+  // }
 
   update_redirect(){
     this._router.navigate(['/editprofile']); 

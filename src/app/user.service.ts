@@ -13,6 +13,7 @@ export class UserService {
   isloggedin:any=false;
   jwttoken = '';
   work_completed:any='';
+  username:any='';
   base_url:any = 'http://127.0.0.1:3000/users/';
    
   constructor(private _http:HttpClient) {   }
