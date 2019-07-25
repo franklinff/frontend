@@ -1,7 +1,10 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light" >
-  <a class="navbar-brand" [routerLink]="['/lists']" style="background-color: blanchedalmond">ToDo app</a>
+  <a class="navbar-brand" *ngIf="!user.isloggedin">ToDo app</a>
+  
+  <a class="navbar-brand" *ngIf="user.isloggedin" [routerLink]="['/lists']" style="background-color: blanchedalmond">ToDo app</a>
+  
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
       aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
