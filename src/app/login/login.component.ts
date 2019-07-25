@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
   error={message:null};
   infoMessage = '';
  
-
   loginForm : FormGroup=new FormGroup({
     email:new FormControl(null,[Validators.email,Validators.required]),
     password:new FormControl(null,Validators.required)
@@ -34,8 +33,7 @@ export class LoginComponent implements OnInit {
 
       setTimeout(function() {
         this.infoMessage = false;
-       // console.log(this.infoMessage);
-        }.bind(this), 3000);
+      }.bind(this), 2400);
    }
 
   moveToRegister(){
@@ -49,12 +47,13 @@ export class LoginComponent implements OnInit {
       return;
     }
     //console.log(JSON.stringify(this.loginForm.value));
-    this._user.login(JSON.stringify(this.loginForm.value)).subscribe(
+    const subscription = this._user.login(JSON.stringify(this.loginForm.value)).subscribe(
         (data:any) =>{ 
          // console.log(data);
           localStorage.setItem('access_token',data.jwttoken);
           this._user.isloggedin=data;
           this._router.navigate(['/lists']);
+          subscription.unsubscribe();
         },
         (error)=>{
               if(error.error.message == 'Incorrect username.'){
