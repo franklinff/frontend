@@ -63,23 +63,16 @@ export class ToDoComponent implements OnInit {
   });
 
   ngOnInit() {
-
-    this.uploadSuccess.emit();
-    this.route.queryParams.subscribe(params => {
-      if(params.profile_updated !== undefined && params.profile_updated === 'true') {
-          this.infoMessage = 'User profile updated!';
-      }
-    });
-    setTimeout(function() {
-      this.infoMessage = false;
-    }.bind(this), 4200);
-    this.retriveToDoList();
-    // const subscription = this._user.user().subscribe(data => {
-    //   this.loggedinuser(data);    
-    //   subscription.unsubscribe();
-    // },
-    //   error =>this._router.navigate(['/login'])
-    // );
+      this.uploadSuccess.emit();
+      this.route.queryParams.subscribe(params => {
+        if(params.profile_updated !== undefined && params.profile_updated === 'true') {
+            this.infoMessage = 'User profile updated!';
+        }
+      });
+      setTimeout(function() {
+        this.infoMessage = false;
+      }.bind(this),2500);
+      this.retriveToDoList();
    }
 
   loggedinuser(data){
@@ -95,8 +88,7 @@ export class ToDoComponent implements OnInit {
   this._user.title_of_toDo(JSON.stringify(this.profileForm.value)).subscribe(
      data=> {  
       //  this.work_completed = data; 
-        this._user.work_completed = data;   
-        
+        this._user.work_completed = data;    
         this.title_list = ''; 
         this.retriveToDoList();  
         error=> console.error(error); 
