@@ -31,8 +31,7 @@ export class EditProfileComponent implements OnInit {
   get f() { return this.updateprofileForm.controls; }
 
   constructor(private _router:Router,private _user:UserService) { 
-    this._user.user()
-    .subscribe(
+    this._user.logged_in_user(localStorage.getItem('access_token')).subscribe(
       data=>this.displayProfile(data)
     )
   }
@@ -40,10 +39,9 @@ export class EditProfileComponent implements OnInit {
   ngOnInit() {}
 
   displayProfile(data){ 
-    this.username = data.username;
-    this.email = data.email;
-    //this.password=data.password;
-    this.user_id= localStorage.getItem('access_token');;
+     this.username = data.username;
+     this.email = data.email;
+     this.user_id= localStorage.getItem('access_token');
   }
 
   redirect_ontodos(){
@@ -62,7 +60,6 @@ export class EditProfileComponent implements OnInit {
         data=> {
           console.log(data);
           if(data == true){
-          console.log('Profile updated');
             this._router.navigate(['/lists'],{queryParams: { profile_updated: 'true'}});
           }else{
             this.wrong_pwd = true;
