@@ -57,8 +57,11 @@ export class LoginComponent implements OnInit {
           this._router.navigate(['/lists']);
         },
         (error)=>{
-          this.error.message = error.error.message;
-        //  console.log(error);
+              if(error.error.message == 'Incorrect username.'){
+                  this.error.message = 'Incorrect Email.' 
+              }else{
+                this.error.message = error.error.message;
+              }
         } 
     )
   }
