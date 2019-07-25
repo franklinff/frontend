@@ -25,7 +25,6 @@ export class UserService {
   }
 
   login(body:any){
-
     return this._http.post(this.base_url+'login',body,{
       observe:'body',
       withCredentials:true,
@@ -33,13 +32,22 @@ export class UserService {
     });
   }
 
-  user(){
-    return this._http.get(this.base_url+'user',{
-      observe:'body',
-      withCredentials:true,
-      headers:new HttpHeaders().append('Content-Type','application/json')
-    })
+  logged_in_user(body:any){
+    try {  
+      let user = new HttpHeaders().append('token',body);
+      return this._http.get(this.base_url+'getuser_info/',{headers:user})   
+    }catch(e) {
+      console.log(e);
+    }
   }
+
+  // user(){
+  //   return this._http.get(this.base_url+'user',{
+  //     observe:'body',
+  //     withCredentials:true,
+  //     headers:new HttpHeaders().append('Content-Type','application/json')
+  //   })
+  // }
 
   logout(){
     return this._http.get(this.base_url+'logout',{
@@ -106,8 +114,6 @@ export class UserService {
   }
 
   taskDoneSubtitle(body:any){
-  // taskDoneSubtitle(id){
-      // return this._http.put(`http://127.0.0.1:3000/users/subtitleChecked`, {id,id},{
       return this._http.post(this.base_url+'subtitleChecked', body,{
       observe:'body',
       headers:new HttpHeaders().append('Content-Type','application/json')
@@ -123,8 +129,6 @@ export class UserService {
     });
   }
 
-  // uncheckSubtitle(id){
-  //   return this._http.put(`http://127.0.0.1:3000/users/uncheckedSubtitle`, {id},{
   uncheckSubtitle(body:any){
     // console.log(body);    
       return this._http.post(this.base_url+'uncheckedSubtitle', body,{
@@ -162,6 +166,5 @@ export class UserService {
       headers:new HttpHeaders().append('Content-Type','application/json')
     });
   }
-
 
 }
