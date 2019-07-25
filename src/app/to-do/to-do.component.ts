@@ -101,7 +101,6 @@ export class ToDoComponent implements OnInit {
     this._user.getToDoList(localStorage.getItem('access_token')).subscribe((data:any)=> { 
       // console.log(data.work_done);
        this.heroes = data.listData;
-       this.work_completed = data.work_done; 
        this._user.work_completed = data.work_done; 
     });
   }
