@@ -29,7 +29,6 @@ export class ToDoComponent implements OnInit {
   deleted_subtitles:[];
   subtitle_edit:String='';
   subtitle_id:String='';
-  //todo_id='';
   head_todo_id='';
   infoMessage = '';
   work_completed:any='';
@@ -147,25 +146,22 @@ export class ToDoComponent implements OnInit {
   }
 
   subtitleTaskDone(subtitle_id,to_do_headtitleid){ 
-    this._user.taskDoneSubtitle( JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=> {       
-     // this.work_completed = data; 
+    this._user.taskDoneSubtitle(JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=> {       
       this._user.work_completed = data; 
       this.viewHead(to_do_headtitleid);
-      error=>{console.error(error); } 
+      error=>{ console.error(error); } 
      }
-  )
+    )
   this.uploadSuccess.emit();
   }
 
   undosubtitleTaskDone(subtitle_id,to_do_headtitleid){
-
      this._user.uncheckSubtitle(JSON.stringify({subtitle_id: subtitle_id, user_id: localStorage.getItem('access_token')})).subscribe( data=>{    
       //console.log(data); 
       this._user.work_completed = data;  
       this.viewHead(to_do_headtitleid);
       this.uploadSuccess.emit();
-     })
-    
+     })   
   }
 
   showModal(data){  
@@ -183,7 +179,6 @@ export class ToDoComponent implements OnInit {
   submitEditHead(){ 
   //  console.log(this.editTodoTitleForm.value);
     this._user.editTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
-  //  console.log(data);
     this.retriveToDoList();
     this.viewHead(this.editTodoTitleForm.value._id);
      })    
@@ -192,7 +187,6 @@ export class ToDoComponent implements OnInit {
   deleteHead(){ 
    // console.log(this.editTodoTitleForm.value);
     this._user.deleteTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
-    //  this.work_completed = data;
       this._user.work_completed = data;  
       this.retriveToDoList();
       this.headertodo = '';
