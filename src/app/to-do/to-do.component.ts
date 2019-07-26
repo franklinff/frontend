@@ -34,7 +34,6 @@ export class ToDoComponent implements OnInit {
   work_completed:any='';
   @Output() uploadSuccess = new EventEmitter();
 
-
   constructor(private _user:UserService,private _router:Router,private fb: FormBuilder,private route: ActivatedRoute) {  }
 
   profileForm = this.fb.group({
@@ -52,7 +51,6 @@ export class ToDoComponent implements OnInit {
     subtitle: ['', Validators.required],
     headertodo_id:['',Validators.required],
     user_id: localStorage.getItem('access_token')
-  //  todo_id:['',Validators.required]
   });
 
   editSubtitleForm = this.fb.group({
@@ -62,7 +60,6 @@ export class ToDoComponent implements OnInit {
   });
 
   ngOnInit() {
-      this.uploadSuccess.emit();
       this.route.queryParams.subscribe(params => {
         if(params.profile_updated !== undefined && params.profile_updated === 'true') {
             this.infoMessage = 'User profile updated!';
@@ -75,16 +72,12 @@ export class ToDoComponent implements OnInit {
       this.retriveToDoList();
    }
 
-  loggedinuser(data){
-    this.user_id = data._id
-  }
 
   onSubmit(){
-    console.warn(window.location.origin);
+    // console.warn(window.location.origin); //  console.log(this.profileForm.value);  
     if(!this.profileForm.valid){
       console.log('Invalid form'); return; 
     }
-  //  console.log(this.profileForm.value);  
   this._user.title_of_toDo(JSON.stringify(this.profileForm.value)).subscribe(
      data=> {  
         this._user.work_completed = data;    
@@ -107,15 +100,13 @@ export class ToDoComponent implements OnInit {
   deleteTOdo(id){
     this._user.TOdodelete(id).subscribe(
        data=> { 
-         // console.lo_userg(data);
           error=> console.error(error); 
         }
       ) 
   }
 
   viewHead(id){  
-      this._user.viewIndividualHead(JSON.stringify({subtitle_id: id, user_id: localStorage.getItem('access_token')})).subscribe((data:any)=> {       
-       // console.log(data);       
+      this._user.viewIndividualHead(JSON.stringify({subtitle_id: id, user_id: localStorage.getItem('access_token')})).subscribe((data:any)=> {             
           this.headertodo = data.headertodo[0].listTitle;
           this.headertodo_id = data.headertodo[0]._id;
           this.listofsubtitles = data.listofsubtitles;
@@ -175,7 +166,7 @@ export class ToDoComponent implements OnInit {
 
 
   submitEditHead(){ 
-  //  console.log(this.editTodoTitleForm.value);
+   // console.log(this.editTodoTitleForm.value);
     this._user.editTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( data=>{
     this.retriveToDoList();
     this.viewHead(this.editTodoTitleForm.value._id);
@@ -198,7 +189,6 @@ export class ToDoComponent implements OnInit {
     $(".title_list").val('');
   }
 
-
   subtitle_permanent_delete(data){
     this._user.subtitlePermanentDelete(JSON.stringify({subtitle_id: data._id, user_id: localStorage.getItem('access_token')})).subscribe( result=>{
          this._user.work_completed = result;       
@@ -216,11 +206,9 @@ export class ToDoComponent implements OnInit {
     this.head_todo_id =data.to_do_headtitleid;
   }
 
-
   editSubtitleFormSubmit(){
     //console.log(this.editSubtitleForm.value);
     this._user.editSubtitle(JSON.stringify(this.editSubtitleForm.value)).subscribe( result=>{
-     //   console.log(result);
       this.viewHead(this.editSubtitleForm.value.head_todo_id);
     });
   }

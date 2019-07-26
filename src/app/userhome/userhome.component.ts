@@ -20,17 +20,11 @@ export class UserhomeComponent implements OnInit {
       (data:any)=>{
         this.username = data.username;
       },    
-    //  this.addName(data),
       error=>this._router.navigate(['/login'])
     )
   }
 
   ngOnInit() { }
-
-  // addName(data){ 
-  //   //console.log(data);   
-  //   this.username = data.username;
-  // }
 
   update_redirect(){
     this._router.navigate(['/editprofile']); 
