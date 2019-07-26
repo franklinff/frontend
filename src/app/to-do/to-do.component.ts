@@ -87,7 +87,6 @@ export class ToDoComponent implements OnInit {
   //  console.log(this.profileForm.value);  
   this._user.title_of_toDo(JSON.stringify(this.profileForm.value)).subscribe(
      data=> {  
-      //  this.work_completed = data; 
         this._user.work_completed = data;    
         this.title_list = ''; 
         this.retriveToDoList();  
@@ -135,7 +134,6 @@ export class ToDoComponent implements OnInit {
       this.subtitle = null; 
       this._user.insertSubtitle(JSON.stringify(this.subtitleForm.value)).subscribe(   
         data=> {
-           // this.work_completed = data; 
             this._user.work_completed = data; 
             this.viewHead(this.subtitleForm.value.headertodo_id); 
             error=> console.error(error); 
@@ -203,9 +201,7 @@ export class ToDoComponent implements OnInit {
 
   subtitle_permanent_delete(data){
     this._user.subtitlePermanentDelete(JSON.stringify({subtitle_id: data._id, user_id: localStorage.getItem('access_token')})).subscribe( result=>{
-         this.work_completed = result; 
-         this._user.work_completed = result;
-         
+         this._user.work_completed = result;       
          this.uploadSuccess.emit(); 
          this.viewHead(data.to_do_headtitleid);  
      });
