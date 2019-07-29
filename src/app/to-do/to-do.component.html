@@ -44,7 +44,7 @@
           <span *ngIf="subtitle.delete_subTitle == 0">
           <input type="checkbox" (change)="subtitleTaskDone(subtitle._id,subtitle.to_do_headtitleid)">
           {{ subtitle.sub_title }}
-          <button data-target="#editSubtitle" (click)="openModalforEditSubtitle(subtitle)"  type="button" class="btn btn-primary btn-sm" style="margin:12px;">Edit</button>
+          <button data-target="#editSubtitle" data-toggle="modal" (click)="openModalforEditSubtitle(subtitle)"  type="button" class="btn btn-primary btn-sm" style="margin:12px;">Edit</button>
           </span> 
            <br/>
 
