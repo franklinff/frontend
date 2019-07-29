@@ -18,6 +18,7 @@ export class EditProfileComponent implements OnInit {
   user_id='';
   submitted = false;
   wrong_pwd = false;
+  duplicate_email = false;
 
 
   updateprofileForm:FormGroup = new FormGroup({
@@ -58,13 +59,20 @@ export class EditProfileComponent implements OnInit {
     this._user.profileUpdate(JSON.stringify(this.updateprofileForm.value))
     .subscribe(
         (data:any)=> {
+          console.log(data);
+
+          if(data == 'duplicate_email'){
+            this.duplicate_email = true;
+          }
+          if(data == 'wrong password'){
+            this.duplicate_email = true;
+            console.log('Profile not updated');
+          }
           if(data == true){
             this._user.username = this.updateprofileForm.value.username;  
             this._router.navigate(['/lists'],{queryParams: { profile_updated: 'true'}});
-          }else{
-            this.wrong_pwd = true;
-            console.log('Profile not updated');
           }
+
           }
     )
   }

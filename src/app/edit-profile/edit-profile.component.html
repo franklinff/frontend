@@ -13,6 +13,10 @@ Email
 <div *ngIf="submitted && f.email.errors" style="color: red">
         Please enter valid Email.
 </div>
+<div *ngIf="submitted && duplicate_email" style="color: red">
+      Entered email already registered.
+</div> 
+
 <div class="col-xs-12" style="height:17px;"></div>
 
 Set new password
