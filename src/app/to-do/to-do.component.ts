@@ -74,7 +74,7 @@ export class ToDoComponent implements OnInit {
    }
 
 
-  onSubmit(){
+  onSubmit(){ 
     //   console.log(this.profileForm.value);  
     if(!this.profileForm.valid){
       console.log('Invalid form'); return; 
@@ -155,8 +155,6 @@ export class ToDoComponent implements OnInit {
 
   showModal(data){  
 
-    $("#editListHead").modal('show');
-
     this.editTodoTitleForm = this.fb.group({
       title_list: [data.listTitle, Validators.required],
       _id:[data._id],
@@ -171,7 +169,6 @@ export class ToDoComponent implements OnInit {
       }
     )
   }
-
 
   submitEditHead(){ 
     this._user.editTitle(JSON.stringify(this.editTodoTitleForm.value)).subscribe( (data:any)=>{
@@ -193,11 +190,6 @@ export class ToDoComponent implements OnInit {
     })
   }
 
-  openModalforAdd(){ 
-    $("#myModal").modal('show');
-    $(".title_list").val('');
-  }
-
   subtitle_permanent_delete(data){ 
     this._user.subtitlePermanentDelete(JSON.stringify({subtitle_id: data._id, user_id: localStorage.getItem('access_token'),head_todo_id: data.to_do_headtitleid })).subscribe( (result:any)=>{
         this._user.work_completed = result.total_completed_work;      
@@ -209,7 +201,6 @@ export class ToDoComponent implements OnInit {
   }
 
   openModalforEditSubtitle(data){
-    $("#editSubtitle").modal('show');
     this.subtitle_edit = data.sub_title;
     this.subtitle_id =data._id;
     this.head_todo_id =data.to_do_headtitleid;

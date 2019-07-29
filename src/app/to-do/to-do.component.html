@@ -8,7 +8,7 @@
 
       <div class="row" style="height:547px">
       <div class="col-sm-2" style="background-color:lightgoldenrodyellow;">
-        <button type="button" class="btn btn-outline-primary" data-toggle="modal" (click)="openModalforAdd()" style="background-color:orange;margin-left: 35px;margin-top: 15px;margin-bottom: 10px">+ Create ToDo</button>
+        <button data-target="#myModal" type="button" class="btn btn-outline-primary" data-toggle="modal"  style="background-color:orange;margin-left: 35px;margin-top: 15px;margin-bottom: 10px">+ Create ToDo</button>
            <!-- <p>{{ work_completed }}</p> -->
         
            <ul *ngFor="let hero of heroes">         
@@ -19,7 +19,7 @@
               
            
               <span style="float:right;">
-              <a [routerLink]="" data-toggle="modal" (click)="showModal(hero)" style="color:olivedrab"><p><span class="glyphicon glyphicon-pencil">&#x270f;</span></p></a> 
+              <a [routerLink]="" data-target="#editListHead" data-toggle="modal" (click)="showModal(hero)" style="color:olivedrab"><p><span class="glyphicon glyphicon-pencil">&#x270f;</span></p></a> 
               </span> 
               </li> 
             </ul>
@@ -44,7 +44,7 @@
           <span *ngIf="subtitle.delete_subTitle == 0">
           <input type="checkbox" (change)="subtitleTaskDone(subtitle._id,subtitle.to_do_headtitleid)">
           {{ subtitle.sub_title }}
-          <button (click)="openModalforEditSubtitle(subtitle)"  type="button" class="btn btn-primary btn-sm" style="margin:12px;">Edit</button>
+          <button data-target="#editSubtitle" (click)="openModalforEditSubtitle(subtitle)"  type="button" class="btn btn-primary btn-sm" style="margin:12px;">Edit</button>
           </span> 
            <br/>
 
@@ -66,7 +66,7 @@
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">Create new list</h4>
+                <h4 class="modal-title" >Create new list</h4>
                 <button type="button" class="close" aria-label="Close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -74,7 +74,7 @@
              
               <form [formGroup]="profileForm">
               <div class="modal-body">     
-              <input type="text" formControlName="title_list" value="" class="form-control title_list" placeholder="List Name" required>
+              <input type="text" [(ngModel)]="title_list" formControlName="title_list" class="form-control title_list" placeholder="List Name" required>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" on-click="onSubmit()">Save</button>  
