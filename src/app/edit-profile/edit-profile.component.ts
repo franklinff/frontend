@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditProfileComponent implements OnInit {
 
-  username='';
+  username= '';
   email='';
   existingpassword='';
   newPassword='';
@@ -24,9 +24,9 @@ export class EditProfileComponent implements OnInit {
   updateprofileForm:FormGroup = new FormGroup({
       email:new FormControl(null,[Validators.email,Validators.required]),
       username:new FormControl(null,Validators.required),
-      existingpassword: new FormControl(null,Validators.required),
       newPassword:new FormControl(null) ,
-      user_id:new FormControl(null,Validators.required) 
+      user_id:new FormControl(localStorage.getItem('access_token'))
+   
   })
 
   get f() { return this.updateprofileForm.controls; }
@@ -50,30 +50,23 @@ export class EditProfileComponent implements OnInit {
   }
 
   updated_profile_data(){
+    //console.log(this.updateprofileForm.value);
     this.submitted = true;
-   // console.warn(this.updateprofileForm.value);
     if(!this.updateprofileForm.valid){   
       console.log('Invalid form'); return; 
     }
 
-    this._user.profileUpdate(JSON.stringify(this.updateprofileForm.value))
-    .subscribe(
+    this._user.profileUpdate(JSON.stringify(this.updateprofileForm.value)).subscribe(
         (data:any)=> {
           console.log(data);
-
-          if(data == 'duplicate_email'){
-            this.duplicate_email = true;
-          }
-          if(data == 'wrong password'){
-            this.duplicate_email = true;
-            console.log('Profile not updated');
-          }
-          if(data == true){
+          if(data.result){
             this._user.username = this.updateprofileForm.value.username;  
             this._router.navigate(['/lists'],{queryParams: { profile_updated: 'true'}});
+          }else{
+            this.duplicate_email = true;
           }
 
-          }
+        }
     )
   }
   

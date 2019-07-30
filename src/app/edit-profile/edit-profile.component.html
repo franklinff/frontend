@@ -13,7 +13,7 @@ Email
 <div *ngIf="submitted && f.email.errors" style="color: red">
         Please enter valid Email.
 </div>
-<div *ngIf="submitted && duplicate_email" style="color: red">
+ <div *ngIf="submitted && duplicate_email" style="color: red">
       Entered email already registered.
 </div> 
 
@@ -26,7 +26,7 @@ Set new password
 </div>
 <div class="col-xs-12" style="height:17px;"></div>
 
-Password
+<!-- Password
 <input formControlName="existingpassword" type="password" class="form-control" id="existingpassword" placeholder="Please enter login password.">
 <div *ngIf="submitted && f.existingpassword.errors" style="color: red">
     Password is required
@@ -34,9 +34,8 @@ Password
 <div *ngIf="submitted && wrong_pwd" style="color: red">
        Please enter correct login password.
 </div>        
-<div class="col-xs-12" style="height:10px;"></div>
-
-<input [(ngModel)]="user_id" formControlName="user_id" type="hidden" class="form-control" id="user_id" value="{{ user_id }} "> 
+<div class="col-xs-12" style="height:10px;"></div> 
+ -->
 
 <button type="button" class="btn btn-primary"  style="margin-top: 15px"   (click)="updated_profile_data()" >Save</button>
 <button type="button" class="btn btn-light"  style="margin-top: 15px" (click)="redirect_ontodos()" >Cancel</button>
